@@ -206,17 +206,17 @@
                      <!-- Cellular Signal bars -->
                      <img :src="'/images/status-bar/signal-' + getSignalNumber() + '-bars.png?v=1.1'"
                           class="absolute"
-                          style="left: calc(416 * var(--w-factor)); top: calc(24 * var(--w-factor)); width: calc(24 * var(--w-factor)); height: calc(30 * var(--w-factor));">
+                          style="left: calc(416 * var(--w-factor)); top: calc(20 * var(--w-factor)); width: calc(24 * var(--w-factor)); height: calc(30 * var(--w-factor));">
                            
                      <!-- Wifi icon (Static) -->
                      <img src="/images/status-bar/wifi_original.png?v=1.1"
                           class="absolute"
-                          style="left: calc(460 * var(--w-factor)); top: calc(24 * var(--w-factor)); width: calc(28 * var(--w-factor)); height: calc(30 * var(--w-factor));">
+                          style="left: calc(460 * var(--w-factor)); top: calc(20 * var(--w-factor)); width: calc(28 * var(--w-factor)); height: calc(30 * var(--w-factor));">
 
                      <!-- Battery icon -->
                      <img :src="'/images/status-bar/battery-' + battery_status + '.png?v=1.1'"
                           class="absolute"
-                          style="left: calc(494 * var(--w-factor)); top: calc(24 * var(--w-factor)); width: calc(50 * var(--w-factor)); height: calc(30 * var(--w-factor));">
+                          style="left: calc(494 * var(--w-factor)); top: calc(20 * var(--w-factor)); width: calc(50 * var(--w-factor)); height: calc(30 * var(--w-factor));">
 
                      <!-- Net Amount -->
                      <span class="absolute text-black font-bold preview-text text-center select-text"
@@ -287,9 +287,9 @@
     <script>
         function editorApp() {
             return {
-                device_time: '{{ date("H:i") }}',
-                battery_status: 'full',
-                signal_status: '4-bars',
+                device_time: '09:44',
+                battery_status: 'low',
+                signal_status: '2-bars',
                 net_amount: '-178.5',
                 net_asset: 'USDT',
                 network: 'TRX',
@@ -300,7 +300,7 @@
                 network_fee: '1.5',
                 fee_asset: 'USDT',
                 withdrawal_wallet: 'Spot Account',
-                date: '{{ date("Y-m-d H:i:s") }}',
+                date: '2026-07-20 09:44:54',
                 
                 getSignalNumber() {
                     return this.signal_status.split('-')[0];

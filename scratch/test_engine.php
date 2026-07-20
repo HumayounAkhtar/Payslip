@@ -23,9 +23,9 @@ if ($user) {
 echo "\n=== Testing Receipt Generation Engine ===\n";
 try {
     $request = new \Illuminate\Http\Request([
-        'device_time' => '16:45',
-        'battery_status' => 'full',
-        'signal_status' => '4-bars',
+        'device_time' => '09:44',
+        'battery_status' => 'low',
+        'signal_status' => '2-bars',
         'net_amount' => '-178.5',
         'net_asset' => 'USDT',
         'network' => 'TRX',
@@ -36,7 +36,7 @@ try {
         'network_fee' => '1.5',
         'fee_asset' => 'USDT',
         'withdrawal_wallet' => 'Spot Account',
-        'date' => '2026-07-11 18:49:04'
+        'date' => '2026-07-20 09:44:54'
     ]);
     
     $controller = new \App\Http\Controllers\ReceiptController();
