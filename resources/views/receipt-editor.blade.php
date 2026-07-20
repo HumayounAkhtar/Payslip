@@ -192,7 +192,7 @@
                         width: 100cqw;
                         height: calc(1280 * var(--w-factor));
                         border-radius: calc(30 * var(--w-factor));
-                        background-image: url('/templates/clean-slip-bg.png');
+                        background-image: url('/templates/clean-slip-bg.png?v=1.1');
                         background-size: cover;
                         background-repeat: no-repeat;
                      ">
@@ -204,17 +204,17 @@
                            style="left: calc(75 * var(--w-factor)); top: calc(24 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
                       
                      <!-- Cellular Signal bars -->
-                     <img :src="'/images/status-bar/signal-' + getSignalNumber() + '-bars.png'"
+                     <img :src="'/images/status-bar/signal-' + getSignalNumber() + '-bars.png?v=1.1'"
                           class="absolute"
                           style="left: calc(416 * var(--w-factor)); top: calc(24 * var(--w-factor)); width: calc(24 * var(--w-factor)); height: calc(30 * var(--w-factor));">
                            
                      <!-- Wifi icon (Static) -->
-                     <img src="/images/status-bar/wifi_original.png"
+                     <img src="/images/status-bar/wifi_original.png?v=1.1"
                           class="absolute"
                           style="left: calc(460 * var(--w-factor)); top: calc(24 * var(--w-factor)); width: calc(28 * var(--w-factor)); height: calc(30 * var(--w-factor));">
 
                      <!-- Battery icon -->
-                     <img :src="'/images/status-bar/battery-' + battery_status + '.png'"
+                     <img :src="'/images/status-bar/battery-' + battery_status + '.png?v=1.1'"
                           class="absolute"
                           style="left: calc(494 * var(--w-factor)); top: calc(24 * var(--w-factor)); width: calc(50 * var(--w-factor)); height: calc(30 * var(--w-factor));">
 
