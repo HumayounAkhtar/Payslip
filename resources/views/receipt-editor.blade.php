@@ -287,9 +287,9 @@
     <script>
         function editorApp() {
             return {
-                device_time: '09:44',
-                battery_status: 'low',
-                signal_status: '2-bars',
+                device_time: '15:57',
+                battery_status: 'full',
+                signal_status: '3-bars',
                 net_amount: '-178.5',
                 net_asset: 'USDT',
                 network: 'TRX',
@@ -300,7 +300,7 @@
                 network_fee: '1.5',
                 fee_asset: 'USDT',
                 withdrawal_wallet: 'Spot Account',
-                date: '2026-07-20 09:44:54',
+                date: '2026-07-11 18:49:04',
                 
                 getSignalNumber() {
                     return this.signal_status.split('-')[0];
