@@ -154,14 +154,12 @@ if os.path.exists(sample_path):
             (410, 20, 580, 60),   # Clear entire right status icons area completely!
             (50, 140, 540, 225),  # Net Amount area
             (250, 410, 575, 445),  # Network value
-            (200, 460, 540, 518),  # Address value (keep copy icon space)
-            (200, 560, 540, 642),  # Txid value (keep copy icon space)
+            (200, 460, 575, 518),  # Address value (clear copy icon space too)
+            (200, 560, 575, 642),  # Txid value (clear copy icon space too)
             (250, 660, 575, 692),  # Amount
             (250, 715, 575, 745),  # Network fee
             (250, 760, 575, 795),  # Wallet type
             (250, 815, 575, 850),  # Date
-            (540, 488, 575, 518),  # Clear under Address copy icon
-            (540, 585, 575, 642),  # Clear under Txid copy icon
         ]
         
         for box in white_boxes:

@@ -244,6 +244,10 @@
                                     :style="idx === 0 ? 'margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.3;' : 'font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-top: 1px;'"></span>
                           </template>
                      </div>
+
+                     <!-- Address copy icon overlay -->
+                     <img src="/images/copy-icon.png?v=1.1" class="absolute"
+                          style="left: calc(541 * var(--w-factor)); top: calc(466 * var(--w-factor)); width: calc(27 * var(--w-factor)); height: calc(19 * var(--w-factor));">
                      
                      <!-- Txid (wrapped and underlined) -->
                      <div class="absolute flex flex-col items-end text-right select-text"
@@ -254,6 +258,10 @@
                                     :style="idx === 1 ? 'margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;' : 'font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;'"></span>
                           </template>
                      </div>
+
+                     <!-- Txid copy icon overlay -->
+                     <img src="/images/copy-icon.png?v=1.1" class="absolute"
+                          :style="'left: calc(541 * var(--w-factor)); top: calc(' + (txidLines.length >= 2 ? 583 : 563) + ' * var(--w-factor)); width: calc(27 * var(--w-factor)); height: calc(20 * var(--w-factor));'">
 
                      <!-- Amount -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"

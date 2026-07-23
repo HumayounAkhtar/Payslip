@@ -115,6 +115,9 @@ class ReceiptController extends Controller
                 $y = $mapping->y_coordinate + ($idx * 20); // 20px spacing
                 $this->drawRawText($image, $line, $x, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
             }
+
+            // Draw copy icon next to Line 1 of Recipient Address
+            $image->place(public_path('images/copy-icon.png'), 'top-left', 541, $mapping->y_coordinate + 2);
         }
 
         // 7. Custom Wrapping, Overlays & Underlines for TxID
@@ -160,6 +163,10 @@ class ReceiptController extends Controller
                     $draw->width(1);
                 });
             }
+
+            // Draw copy icon next to Line 2 of TxID (or Line 1 if only 1 line exists)
+            $y_copy = (count($txidLines) >= 2) ? ($mapping->y_coordinate + 22) : ($mapping->y_coordinate + 2);
+            $image->place(public_path('images/copy-icon.png'), 'top-left', 541, $y_copy);
         }
 
         // 8. Place Status Bar Icons Overlays
