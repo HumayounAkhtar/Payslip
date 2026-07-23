@@ -109,41 +109,25 @@ class ReceiptController extends Controller
             $txidLines = $this->wrapText($validated['txid'], 31);
             $fontFile = public_path('fonts/Inter-Medium.ttf');
 
-            $width1 = count($txidLines) > 0 ? $this->getTextWidth($txidLines[0], $mapping->font_size, $fontFile) : 0;
-            $x_start = 540 - $width1;
-
             foreach ($txidLines as $idx => $line) {
                 $y = $mapping->y_coordinate + ($idx * 20); // 20px spacing
                 
-                if ($idx < 2) {
-                    // Left-align first two lines starting at $x_start to align perfectly on the left
-                    $this->drawRawText($image, $line, $x_start, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'left');
-                    $width = $this->getTextWidth($line, $mapping->font_size, $fontFile);
-                    $x_end = $x_start + $width;
-                    $y_underline = $y + 19;
-                    
-                    $image->drawLine(function ($draw) use ($x_start, $x_end, $y_underline, $mapping) {
-                        $draw->from($x_start, $y_underline);
-                        $draw->to($x_end, $y_underline);
-                        $draw->color($mapping->font_color);
-                        $draw->width(1);
-                    });
-                } else {
-                    // Right-align remaining lines at the default coordinate (574)
-                    $x = $mapping->x_coordinate;
-                    $this->drawRawText($image, $line, $x, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
-                    
-                    $width = $this->getTextWidth($line, $mapping->font_size, $fontFile);
-                    $x_start_line = $x - $width;
-                    $y_underline = $y + 19;
-                    
-                    $image->drawLine(function ($draw) use ($x_start_line, $x, $y_underline, $mapping) {
-                        $draw->from($x_start_line, $y_underline);
-                        $draw->to($x, $y_underline);
-                        $draw->color($mapping->font_color);
-                        $draw->width(1);
-                    });
-                }
+                // Only the second line is shifted to the left of the copy icon (ends at 540)
+                // All other lines end at the default right boundary (574)
+                $x = ($idx === 1) ? 540 : $mapping->x_coordinate;
+                
+                $this->drawRawText($image, $line, $x, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
+                
+                $width = $this->getTextWidth($line, $mapping->font_size, $fontFile);
+                $x_start_line = $x - $width;
+                $y_underline = $y + 19;
+                
+                $image->drawLine(function ($draw) use ($x_start_line, $x, $y_underline, $mapping) {
+                    $draw->from($x_start_line, $y_underline);
+                    $draw->to($x, $y_underline);
+                    $draw->color($mapping->font_color);
+                    $draw->width(1);
+                });
             }
         }
 

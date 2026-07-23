@@ -248,19 +248,10 @@
                      <!-- Txid (wrapped and underlined) -->
                      <div class="absolute flex flex-col items-end text-right select-text"
                           style="right: calc(16 * var(--w-factor)); top: calc(561 * var(--w-factor)); width: calc(380 * var(--w-factor));">
-                          <!-- First 2 lines container (left-aligned relative to each other, right-aligned to the block) -->
-                          <div class="flex flex-col items-start text-left" style="margin-right: calc(34 * var(--w-factor));">
-                              <template x-for="(line, idx) in txidLines.slice(0, 2)" :key="idx">
-                                  <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-[0.5px]"
-                                        x-text="line"
-                                        style="font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;"></span>
-                              </template>
-                          </div>
-                          <!-- Remaining lines (right-aligned to the container) -->
-                          <template x-for="(line, idx) in txidLines.slice(2)" :key="idx">
+                          <template x-for="(line, idx) in txidLines" :key="idx">
                               <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-[0.5px]"
                                     x-text="line"
-                                    style="font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;"></span>
+                                    :style="idx === 1 ? 'margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;' : 'font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;'"></span>
                           </template>
                      </div>
 
