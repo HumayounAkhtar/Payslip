@@ -180,7 +180,7 @@ class ReceiptController extends Controller
         $battery = $validated['battery_status'];
         $batteryIconPath = public_path("images/status-bar/battery-{$battery}.png");
         if (file_exists($batteryIconPath)) {
-            $image->place($batteryIconPath, 'top-left', 513, 26);
+            $image->place($batteryIconPath, 'top-left', 518, 26);
         }
 
         // Wifi Icon (Static)

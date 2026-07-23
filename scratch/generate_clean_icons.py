@@ -1,139 +1,136 @@
 import os
 import math
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw
 
 statusbar_dir = r"c:\xampp\htdocs\Payslip\public\images\status-bar"
 os.makedirs(statusbar_dir, exist_ok=True)
 
-def save_scaled(img_large, filename, scale=10):
-    w, h = img_large.size
-    img_small = img_large.resize((w // scale, h // scale), Image.Resampling.LANCZOS)
+def save_scaled(img_large, target_size, filename):
+    img_small = img_large.resize(target_size, Image.Resampling.LANCZOS)
     dest = os.path.join(statusbar_dir, filename)
     img_small.save(dest, "PNG")
     print(f"  {filename}: {img_small.width}x{img_small.height}px")
 
-# ═══════════════════════════════════════════════════════════════
-# REFERENCE MEASUREMENTS (from iPhone-style status bar):
-#   Signal  → placed at x=433, y=26 on 590px canvas
-#   WiFi    → placed at x=478, y=27
-#   Battery → placed at x=513, y=26
-#   Target final sizes: signal≈28×18, wifi≈18×14, battery≈36×18
-# ═══════════════════════════════════════════════════════════════
-
-print("Generating status bar icons...")
+print("=== Generating Authentic iOS Status Bar Icons ===")
 
 # ───────────────────────────────────────────────────────────────
-# 1. SIGNAL BARS
-#    4 bars, tight compact spacing, all increasing height L→R
-#    Final target: 28×18px → use 280×180 canvas at 10x
+# 1. SIGNAL BARS (Target size: 38 x 24 px)
+#    4 rounded pill bars, 10x canvas size (380 x 240)
 # ───────────────────────────────────────────────────────────────
-def make_signal(active_bars, filename):
-    W, H = 280, 180
+def generate_signal(active_bars, filename):
+    W, H = 380, 240
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
 
-    # 4 bars: bar_w=42, gap=9 — compact tight iOS style
     bar_w = 42
-    gap   = 9
-    bot   = H - 5
-    # Heights: 55, 95, 135, 175 — steep steps
-    heights = [55, 95, 135, 175]
+    gap = 20
+    bot = 210
 
-    for i, bh in enumerate(heights):
-        x0 = 5 + i * (bar_w + gap)
+    # heights for bars 1, 2, 3, 4
+    heights = [65, 105, 145, 185]
+    # Center 4 bars in 380px width: total_w = 4*42 + 3*20 = 228
+    left_start = (W - 228) // 2
+
+    for i in range(4):
+        x0 = left_start + i * (bar_w + gap)
         x1 = x0 + bar_w
-        y0 = bot - bh
+        y0 = bot - heights[i]
         y1 = bot
-        alpha = 255 if i < active_bars else 55
-        d.rounded_rectangle([x0, y0, x1, y1], radius=9, fill=(0, 0, 0, alpha))
+        is_active = (i < active_bars)
+        
+        if is_active:
+            color = (0, 0, 0, 255)
+        else:
+            color = (196, 196, 198, 255) # Light gray for inactive bars (iOS style)
 
-    save_scaled(img, filename)
+        d.rounded_rectangle([x0, y0, x1, y1], radius=12, fill=color)
+
+    save_scaled(img, (38, 24), filename)
 
 for n in range(1, 5):
-    make_signal(n, f"signal-{n}-bars.png")
-make_signal(4, "signal_original.png")
+    generate_signal(n, f"signal-{n}-bars.png")
+generate_signal(4, "signal_original.png")
 
 # ───────────────────────────────────────────────────────────────
-# 2. WI-FI ICON
-#    3 arcs + dot, compact — final: 18×14px → 180×140 canvas
+# 2. WI-FI ICON (Target size: 34 x 22 px)
+#    Concentric arcs + dot, 10x canvas size (340 x 220)
 # ───────────────────────────────────────────────────────────────
-def make_wifi():
-    W, H = 180, 140
+def generate_wifi():
+    W, H = 340, 220
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
 
-    cx, cy = W // 2, H - 12   # anchor point at bottom centre
+    cx, cy = W // 2, H - 35
 
-    # Dot
-    dr = 11
-    d.ellipse([cx-dr, cy-dr, cx+dr, cy+dr], fill=(0, 0, 0, 255))
+    # Bottom dot
+    dot_r = 18
+    d.ellipse([cx - dot_r, cy - dot_r, cx + dot_r, cy + dot_r], fill=(0, 0, 0, 255))
 
-    # 3 arcs — thin stroke, 225°→315°
-    radii  = [35, 65, 95]
-    stroke = 15
-    a0, a1 = 225, 315
+    # 3 arcs (inner, middle, outer)
+    radii = [55, 95, 135]
+    stroke = 22
+    a0, a1 = 215, 325
 
     for r in radii:
-        bbox = [cx-r, cy-r, cx+r, cy+r]
+        bbox = [cx - r, cy - r, cx + r, cy + r]
         d.arc(bbox, start=a0, end=a1, fill=(0, 0, 0, 255), width=stroke)
-        # Round caps
         cr = stroke // 2 - 1
         for ang in [a0, a1]:
             rad = math.radians(ang)
-            ex, ey = cx + r*math.cos(rad), cy + r*math.sin(rad)
-            d.ellipse([ex-cr, ey-cr, ex+cr, ey+cr], fill=(0, 0, 0, 255))
+            ex = cx + r * math.cos(rad)
+            ey = cy + r * math.sin(rad)
+            d.ellipse([ex - cr, ey - cr, ex + cr, ey + cr], fill=(0, 0, 0, 255))
 
-    save_scaled(img, "wifi_original.png")
+    save_scaled(img, (34, 22), "wifi_original.png")
 
-make_wifi()
+generate_wifi()
 
 # ───────────────────────────────────────────────────────────────
-# 3. BATTERY ICON  — iOS pill style
-#    Reference: compact rounded rectangle, thin outline, solid fill
-#    Final target: ~36×18px → 360×180 canvas at 10x
+# 3. BATTERY ICON (Target size: 48 x 24 px)
+#    iOS outline battery frame + interior block fill, 10x canvas (480 x 240)
 # ───────────────────────────────────────────────────────────────
-def make_battery(level, filename):
-    W, H = 380, 180
+def generate_battery(level, filename):
+    W, H = 480, 240
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
 
-    # Outer body — thin outline, highly rounded (pill-like)
-    bL, bT, bR, bB = 5, 25, 320, 155
-    outline_w = 12
-    radius    = 28
+    # Battery Outer Frame
+    bL, bT, bR, bB = 25, 25, 405, 215
+    outline_w = 20
+    radius = 45
     d.rounded_rectangle([bL, bT, bR, bB], radius=radius, outline=(0, 0, 0, 255), width=outline_w)
 
-    # Small nub (terminal) on the right
-    nL, nT, nR, nB = 325, 70, 355, 110
-    d.rounded_rectangle([nL, nT, nR, nB], radius=9, fill=(0, 0, 0, 255))
+    # Battery Right Nub
+    nL, nT, nR, nB = 412, 85, 442, 155
+    d.rounded_rectangle([nL, nT, nR, nB], radius=12, fill=(0, 0, 0, 255))
 
-    # Inner fill — close gaps for "full" = solid look
-    pad_x = outline_w + 2   # tight inner padding
-    pad_y = outline_w + 2
-    iL = bL + pad_x
-    iT = bT + pad_y
-    iR = bR - pad_x
-    iB = bB - pad_y
+    # Battery Interior Fill Block
+    pad = outline_w + 12 # 32px padding inside outline frame
+    iL = bL + pad
+    iT = bT + pad
+    iR_max = bR - pad
+    iB = bB - pad
+    inner_r = max(6, radius - pad)
 
     if level == "full":
-        fR = iR
-        fc = (0, 0, 0, 255)
+        iR = iR_max
+        fill_color = (0, 0, 0, 255)
     elif level == "medium":
-        fR = iL + int((iR - iL) * 0.55)
-        fc = (0, 0, 0, 255)
+        iR = iL + int((iR_max - iL) * 0.50)
+        fill_color = (0, 0, 0, 255)
     elif level == "low":
-        fR = iL + int((iR - iL) * 0.20)
-        fc = (239, 68, 68, 255)
+        iR = iL + int((iR_max - iL) * 0.25)
+        fill_color = (0, 0, 0, 255) # Match low charge black block from reference
     else:
-        fR = iL
-        fc = (0, 0, 0, 255)
+        iR = iL + int((iR_max - iL) * 0.25)
+        fill_color = (0, 0, 0, 255)
 
-    if fR > iL:
-        d.rounded_rectangle([iL, iT, fR, iB], radius=radius - outline_w - 2, fill=fc)
+    if iR > iL:
+        d.rounded_rectangle([iL, iT, iR, iB], radius=inner_r, fill=fill_color)
 
-    save_scaled(img, filename)
+    save_scaled(img, (48, 24), filename)
 
 for lv in ["full", "medium", "low"]:
-    make_battery(lv, f"battery-{lv}.png")
+    generate_battery(lv, f"battery-{lv}.png")
 
-print("Done!")
+print("iOS Status bar icons updated successfully!")

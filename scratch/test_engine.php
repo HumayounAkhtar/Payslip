@@ -25,7 +25,7 @@ try {
     $request = new \Illuminate\Http\Request([
         'device_time' => '15:57',
         'battery_status' => 'full',
-        'signal_status' => '3-bars',
+        'signal_status' => '4-bars',
         'net_amount' => '-178.5',
         'net_asset' => 'USDT',
         'network' => 'TRX',
