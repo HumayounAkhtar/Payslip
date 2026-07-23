@@ -94,7 +94,20 @@ class ReceiptController extends Controller
 
         // 6. Custom Wrapping & Overlay Rendering for Recipient Address
         if ($mapping = $mappings->get('address')) {
-            $addressLines = $this->wrapText($validated['address'], 30);
+            $address = $validated['address'];
+            if (strpos($address, "\n") !== false) {
+                $addressLines = explode("\n", str_replace("\r", "", $address));
+            } else {
+                if (mb_strlen($address) <= 25) {
+                    $addressLines = [$address];
+                } else {
+                    $addressLines = [
+                        mb_substr($address, 0, 25),
+                        mb_substr($address, 25)
+                    ];
+                }
+            }
+
             foreach ($addressLines as $idx => $line) {
                 // Line 1 is offset to the left of the copy icon (ends at x=540)
                 // Subsequent lines align to the default right border (ends at x=574)
@@ -106,7 +119,25 @@ class ReceiptController extends Controller
 
         // 7. Custom Wrapping, Overlays & Underlines for TxID
         if ($mapping = $mappings->get('txid')) {
-            $txidLines = $this->wrapText($validated['txid'], 31);
+            $txid = $validated['txid'];
+            if (strpos($txid, "\n") !== false) {
+                $txidLines = explode("\n", str_replace("\r", "", $txid));
+            } else {
+                if (mb_strlen($txid) <= 25) {
+                    $txidLines = [$txid];
+                } elseif (mb_strlen($txid) <= 52) {
+                    $txidLines = [
+                        mb_substr($txid, 0, 25),
+                        mb_substr($txid, 25)
+                    ];
+                } else {
+                    $txidLines = [
+                        mb_substr($txid, 0, 25),
+                        mb_substr($txid, 25, 27),
+                        mb_substr($txid, 52)
+                    ];
+                }
+            }
             $fontFile = public_path('fonts/Inter-Medium.ttf');
 
             foreach ($txidLines as $idx => $line) {

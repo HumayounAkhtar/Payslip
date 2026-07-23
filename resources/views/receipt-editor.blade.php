@@ -309,7 +309,7 @@
                     for (let i = 0; i < 33; i++) {
                         addr += chars.charAt(Math.floor(Math.random() * chars.length));
                     }
-                    this.address = addr.substring(0, 30) + '\n' + addr.substring(30);
+                    this.address = addr;
                 },
                 
                 generateRandomTxid() {
@@ -318,15 +318,42 @@
                     for (let i = 0; i < 64; i++) {
                         hex += chars.charAt(Math.floor(Math.random() * chars.length));
                     }
-                    this.txid = hex.substring(0, 31) + '\n' + hex.substring(31, 62) + '\n' + hex.substring(62);
+                    this.txid = hex;
                 },
                 
                 get addressLines() {
-                    return this.getWrappedLines(this.address, 30);
+                    if (!this.address) return [];
+                    if (this.address.includes('\n')) {
+                        return this.address.split('\n');
+                    }
+                    if (this.address.length <= 25) {
+                        return [this.address];
+                    }
+                    return [
+                        this.address.substring(0, 25),
+                        this.address.substring(25)
+                    ];
                 },
                 
                 get txidLines() {
-                    return this.getWrappedLines(this.txid, 31);
+                    if (!this.txid) return [];
+                    if (this.txid.includes('\n')) {
+                        return this.txid.split('\n');
+                    }
+                    if (this.txid.length <= 25) {
+                        return [this.txid];
+                    }
+                    if (this.txid.length <= 52) {
+                        return [
+                            this.txid.substring(0, 25),
+                            this.txid.substring(25)
+                        ];
+                    }
+                    return [
+                        this.txid.substring(0, 25),
+                        this.txid.substring(25, 52),
+                        this.txid.substring(52)
+                    ];
                 },
                 
                 getWrappedLines(text, maxChars) {
