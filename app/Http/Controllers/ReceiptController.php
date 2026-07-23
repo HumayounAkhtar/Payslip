@@ -143,9 +143,9 @@ class ReceiptController extends Controller
             foreach ($txidLines as $idx => $line) {
                 $y = $mapping->y_coordinate + ($idx * 20); // 20px spacing
                 
-                // Only the second line is shifted to the left of the copy icon (ends at 540)
+                // Only the first line is shifted to the left of the copy icon (ends at 540)
                 // All other lines end at the default right boundary (574)
-                $x = ($idx === 1) ? 540 : $mapping->x_coordinate;
+                $x = ($idx === 0) ? 540 : $mapping->x_coordinate;
                 
                 $this->drawRawText($image, $line, $x, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
                 
