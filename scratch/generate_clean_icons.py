@@ -60,15 +60,15 @@ def generate_wifi():
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
 
-    cx, cy = W // 2, H - 35
+    cx, cy = W // 2, H - 28
 
-    # Bottom dot
-    dot_r = 18
+    # Bolder Bottom dot
+    dot_r = 24
     d.ellipse([cx - dot_r, cy - dot_r, cx + dot_r, cy + dot_r], fill=(0, 0, 0, 255))
 
-    # 3 arcs (inner, middle, outer)
+    # 3 arcs (inner, middle, outer) with thick bold stroke (36px)
     radii = [55, 95, 135]
-    stroke = 22
+    stroke = 36
     a0, a1 = 215, 325
 
     for r in radii:
