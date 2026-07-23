@@ -129,8 +129,8 @@ class ReceiptController extends Controller
                         $draw->width(1);
                     });
                 } else {
-                    // Right-align remaining lines at 540 (to align with the first two lines, bypassing the copy icon)
-                    $x = 540;
+                    // Right-align remaining lines at the default coordinate (574)
+                    $x = $mapping->x_coordinate;
                     $this->drawRawText($image, $line, $x, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
                     
                     $width = $this->getTextWidth($line, $mapping->font_size, $fontFile);

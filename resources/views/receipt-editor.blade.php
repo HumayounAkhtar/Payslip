@@ -260,7 +260,7 @@
                           <template x-for="(line, idx) in txidLines.slice(2)" :key="idx">
                               <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-[0.5px]"
                                     x-text="line"
-                                    style="margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;"></span>
+                                    style="font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;"></span>
                           </template>
                      </div>
 
