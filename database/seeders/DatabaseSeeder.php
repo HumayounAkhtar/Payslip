@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
         $mappings = [
             [
                 'field_key' => 'device_time',
-                'x_coordinate' => 75,
-                'y_coordinate' => 24,
+                'x_coordinate' => 85,
+                'y_coordinate' => 26,
                 'font_size' => 16,
                 'font_color' => '#000000',
                 'font_weight' => 'bold',

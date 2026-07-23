@@ -207,22 +207,22 @@
                      <!-- Time on left -->
                      <span class="absolute text-black font-bold preview-text"
                            x-text="device_time"
-                           style="left: calc(75 * var(--w-factor)); top: calc(24 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="left: calc(85 * var(--w-factor)); top: calc(26 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
                       
                      <!-- Cellular Signal bars -->
                      <img :src="'/images/status-bar/signal-' + getSignalNumber() + '-bars.png?v=1.1'"
                           class="absolute"
-                          style="left: calc(416 * var(--w-factor)); top: calc(20 * var(--w-factor)); width: calc(24 * var(--w-factor)); height: calc(30 * var(--w-factor));">
+                          style="left: calc(433 * var(--w-factor)); top: calc(26 * var(--w-factor)); width: calc(35 * var(--w-factor)); height: calc(23 * var(--w-factor));">
                            
                      <!-- Wifi icon (Static) -->
                      <img src="/images/status-bar/wifi_original.png?v=1.1"
                           class="absolute"
-                          style="left: calc(460 * var(--w-factor)); top: calc(20 * var(--w-factor)); width: calc(28 * var(--w-factor)); height: calc(30 * var(--w-factor));">
+                          style="left: calc(478 * var(--w-factor)); top: calc(27 * var(--w-factor)); width: calc(26 * var(--w-factor)); height: calc(22 * var(--w-factor));">
 
                      <!-- Battery icon -->
                      <img :src="'/images/status-bar/battery-' + battery_status + '.png?v=1.1'"
                           class="absolute"
-                          style="left: calc(494 * var(--w-factor)); top: calc(20 * var(--w-factor)); width: calc(50 * var(--w-factor)); height: calc(30 * var(--w-factor));">
+                          style="left: calc(513 * var(--w-factor)); top: calc(26 * var(--w-factor)); width: calc(48 * var(--w-factor)); height: calc(24 * var(--w-factor));">
 
                      <!-- Net Amount -->
                      <span class="absolute text-black font-bold preview-text text-center select-text"

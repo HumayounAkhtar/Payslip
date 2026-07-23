@@ -136,20 +136,20 @@ class ReceiptController extends Controller
         $bars = explode('-', $validated['signal_status'])[0];
         $signalIconPath = public_path("images/status-bar/signal-{$bars}-bars.png");
         if (file_exists($signalIconPath)) {
-            $image->place($signalIconPath, 'top-left', 416, 20);
+            $image->place($signalIconPath, 'top-left', 433, 26);
         }
 
         // Battery Status
         $battery = $validated['battery_status'];
         $batteryIconPath = public_path("images/status-bar/battery-{$battery}.png");
         if (file_exists($batteryIconPath)) {
-            $image->place($batteryIconPath, 'top-left', 494, 20);
+            $image->place($batteryIconPath, 'top-left', 513, 26);
         }
 
         // Wifi Icon (Static)
         $wifiIconPath = public_path("images/status-bar/wifi_original.png");
         if (file_exists($wifiIconPath)) {
-            $image->place($wifiIconPath, 'top-left', 460, 20);
+            $image->place($wifiIconPath, 'top-left', 478, 27);
         }
 
         // 9. Stream compiled image back to client
