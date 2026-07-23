@@ -13,71 +13,79 @@ def save_scaled_image(img_large, filename):
     img_small.save(dest_path, "PNG")
     print(f"Generated {filename} ({img_small.size[0]}x{img_small.size[1]})")
 
-# 1. Cellular Signal Icons (35x23)
+# 1. Cellular Signal Icons (35x23) - Bold style
 def generate_signal_icon(active_bars, filename):
+    # Canvas size 350x230
     img = Image.new("RGBA", (350, 230), (255, 255, 255, 0))
     draw = ImageDraw.Draw(img)
     
+    # Bolder bars (width 56, gap 14, radius 14)
     bar_coords = [
-        (45, 140, 95, 200),
-        (115, 100, 165, 200),
-        (185, 60, 235, 200),
-        (255, 20, 305, 200)
+        (42, 140, 98, 200),
+        (112, 100, 168, 200),
+        (182, 60, 238, 200),
+        (252, 20, 308, 200)
     ]
     
     for i, coords in enumerate(bar_coords):
         is_active = i < active_bars
         color = (0, 0, 0, 255) if is_active else (0, 0, 0, 50)
-        draw.rounded_rectangle(coords, radius=12, fill=color)
+        draw.rounded_rectangle(coords, radius=14, fill=color)
         
     save_scaled_image(img, filename)
 
+# Generate signal icons
 for bars in range(1, 5):
     generate_signal_icon(bars, f"signal-{bars}-bars.png")
 generate_signal_icon(4, "signal_original.png")
 
-# 2. Wi-Fi Icon (26x22)
+# 2. Wi-Fi Icon (26x22) - Bold style
 def generate_wifi_icon():
+    # Canvas size 260x220
     img = Image.new("RGBA", (260, 220), (255, 255, 255, 0))
     draw = ImageDraw.Draw(img)
     
     center_x, center_y = 130, 175
-    draw.ellipse([center_x - 12, center_y - 12, center_x + 12, center_y + 12], fill=(0, 0, 0, 255))
     
-    radii = [45, 85, 125]
+    # Bolder bottom dot: radius 16
+    draw.ellipse([center_x - 16, center_y - 16, center_x + 16, center_y + 16], fill=(0, 0, 0, 255))
+    
+    # Bolder concentric arcs: width 24, gap 16
+    radii = [55, 95, 135]
     start_angle = 220
     end_angle = 320
     
     for r in radii:
         bbox = [center_x - r, center_y - r, center_x + r, center_y + r]
-        draw.arc(bbox, start=start_angle, end=end_angle, fill=(0, 0, 0, 255), width=16)
+        draw.arc(bbox, start=start_angle, end=end_angle, fill=(0, 0, 0, 255), width=24)
         
+        # Rounded end caps (radius 12)
         for angle in [start_angle, end_angle]:
             rad = math.radians(angle)
             cx = center_x + r * math.cos(rad)
             cy = center_y + r * math.sin(rad)
-            draw.ellipse([cx - 8, cy - 8, cx + 8, cy + 8], fill=(0, 0, 0, 255))
+            draw.ellipse([cx - 12, cy - 12, cx + 12, cy + 12], fill=(0, 0, 0, 255))
             
     save_scaled_image(img, "wifi_original.png")
 
 generate_wifi_icon()
 
-# 3. Battery Icons (48x24)
+# 3. Battery Icons (48x24) - Bold style
 def generate_battery_icon(level, filename):
+    # Canvas size 480x240
     img = Image.new("RGBA", (480, 240), (255, 255, 255, 0))
     draw = ImageDraw.Draw(img)
     
-    # Battery body outline: x=[30, 410], y=[40, 200], radius=32, width=16
-    draw.rounded_rectangle([30, 40, 410, 200], radius=32, outline=(0, 0, 0, 255), width=16)
+    # Bolder battery body outline: width 24, radius 32
+    draw.rounded_rectangle([30, 40, 410, 200], radius=32, outline=(0, 0, 0, 255), width=24)
     
-    # Battery tip: x=[425, 90], y=[445, 150], radius=10
-    draw.rounded_rectangle([425, 90, 445, 150], radius=10, fill=(0, 0, 0, 255))
+    # Bolder battery tip: radius 12
+    draw.rounded_rectangle([420, 85, 445, 155], radius=12, fill=(0, 0, 0, 255))
     
-    # Battery inner fill: x=[46, fill_right], y=[54, 186]
-    # Outline inner boundaries are x=[38, 402] and y=[48, 192]
-    # This leaves a clean 8px gap on left/right and 6px gap on top/bottom
+    # Battery inner fill: x=[50, fill_right], y=[58, 182]
+    # Leaves a balanced, clean 8px gap on left/right and 6px gap on top/bottom
     if level == "full":
-        fill_right = 394
+        fill_right = 390
         fill_color = (0, 0, 0, 255)
     elif level == "medium":
         fill_right = 220
@@ -86,11 +94,11 @@ def generate_battery_icon(level, filename):
         fill_right = 100
         fill_color = (239, 68, 68, 255)
     else:
-        fill_right = 46
+        fill_right = 50
         fill_color = (0, 0, 0, 255)
         
-    if fill_right > 46:
-        draw.rounded_rectangle([46, 54, fill_right, 186], radius=12, fill=fill_color)
+    if fill_right > 50:
+        draw.rounded_rectangle([50, 58, fill_right, 182], radius=12, fill=fill_color)
         
     save_scaled_image(img, filename)
 
