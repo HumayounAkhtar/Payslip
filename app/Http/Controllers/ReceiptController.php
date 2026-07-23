@@ -109,9 +109,9 @@ class ReceiptController extends Controller
             }
 
             foreach ($addressLines as $idx => $line) {
-                // Line 1 (idx=0): shifted LEFT to x=540, leaving space for copy icon on its right
-                // Line 2+ (idx>0): right-aligned to full right boundary x=574
-                $x = ($idx === 0) ? 540 : $mapping->x_coordinate;
+                // ALL Address lines end at x=540 — same right boundary
+                // Copy icon sits at x=541 to the right of both lines
+                $x = 540;
                 $y = $mapping->y_coordinate + ($idx * 20);
                 $this->drawRawText($image, $line, $x, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
             }
@@ -147,18 +147,8 @@ class ReceiptController extends Controller
             foreach ($txidLines as $idx => $line) {
                 $y = $mapping->y_coordinate + ($idx * 20);
 
-                // Reference pattern:
-                // - If 3 lines: Line 1 (idx=0) shifted to 540, Line 2 (idx=1) full width 574 (has copy icon), Line 3 (idx=2) shifted to 540
-                // - If 2 lines: Line 1 (idx=0) shifted to 540, Line 2 (idx=1) full width 574 (has copy icon)
-                // - If 1 line:  Line 1 (idx=0) full width 574 (has copy icon)
-                if ($totalLines === 1) {
-                    $x = $mapping->x_coordinate; // full width
-                } elseif ($totalLines === 2) {
-                    $x = ($idx === 0) ? 540 : $mapping->x_coordinate;
-                } else {
-                    // 3 lines: middle line (idx=1) goes full width with icon, others shifted
-                    $x = ($idx === 1) ? $mapping->x_coordinate : 540;
-                }
+                // ALL TxID lines end at x=540 — same as Address, copy icon sits at x=541
+                $x = 540;
 
                 $this->drawRawText($image, $line, $x, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
 
@@ -174,11 +164,8 @@ class ReceiptController extends Controller
                 });
             }
 
-            // Copy icon sits to the RIGHT of Line 2 (the middle / full-width line)
-            // For 1-line TxID: beside Line 1; for 2-line: beside Line 2; for 3-line: beside Line 2
-            $iconLineIdx = ($totalLines >= 2) ? 1 : 0;
-            $y_copy = $mapping->y_coordinate + ($iconLineIdx * 20) + 1;
-            $image->place(public_path('images/copy-icon.png'), 'top-left', 541, $y_copy);
+            // Copy icon sits at x=541, same as Address — beside the first line
+            $image->place(public_path('images/copy-icon.png'), 'top-left', 541, $mapping->y_coordinate + 1);
         }
 
         // 8. Place Status Bar Icons Overlays

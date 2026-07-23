@@ -241,7 +241,7 @@
                           <template x-for="(line, idx) in addressLines" :key="idx">
                               <span class="text-[#1E2329] font-medium preview-text"
                                     x-text="line"
-                                    :style="idx === 0 ? 'margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.3;' : 'font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-top: 1px;'"></span>
+                                    style="margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.3;"></span>
                           </template>
                      </div>
 
@@ -249,19 +249,19 @@
                      <img src="/images/copy-icon.png?v=1.1" class="absolute"
                           style="left: calc(541 * var(--w-factor)); top: calc(466 * var(--w-factor)); width: calc(27 * var(--w-factor)); height: calc(19 * var(--w-factor));">
                      
-                     <!-- Txid (wrapped and underlined) -->
+                     <!-- Txid (wrapped and underlined) — same right/width as Address so lines end at x=540 -->
                      <div class="absolute flex flex-col items-end text-right select-text"
                           style="right: calc(16 * var(--w-factor)); top: calc(561 * var(--w-factor)); width: calc(380 * var(--w-factor));">
                           <template x-for="(line, idx) in txidLines" :key="idx">
                               <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-[0.5px]"
                                     x-text="line"
-                                    :style="(txidLines.length === 3 ? (idx === 1) : (txidLines.length === 2 ? idx === 1 : false)) ? 'font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;' : 'margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;'"></span>
+                                    style="margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;"></span>
                           </template>
                      </div>
 
-                     <!-- Txid copy icon overlay: beside Line 2 for multi-line, Line 1 for single -->
+                     <!-- Txid copy icon -->
                      <img src="/images/copy-icon.png?v=1.1" class="absolute"
-                          :style="'left: calc(541 * var(--w-factor)); top: calc(' + (txidLines.length >= 2 ? 561 + 20 : 561) + ' * var(--w-factor)); width: calc(27 * var(--w-factor)); height: calc(20 * var(--w-factor));'">
+                          style="left: calc(541 * var(--w-factor)); top: calc(562 * var(--w-factor)); width: calc(27 * var(--w-factor)); height: calc(19 * var(--w-factor));">
 
                      <!-- Amount -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
