@@ -315,7 +315,7 @@
                 generateRandomTxid() {
                     const chars = '0123456789abcdef';
                     let hex = '';
-                    for (let i = 0; i < 64; i++) {
+                    for (let i = 0; i < 62; i++) {
                         hex += chars.charAt(Math.floor(Math.random() * chars.length));
                     }
                     this.txid = hex;
@@ -343,7 +343,7 @@
                     if (this.txid.length <= 25) {
                         return [this.txid];
                     }
-                    if (this.txid.length <= 52) {
+                    if (this.txid.length <= 51) {
                         return [
                             this.txid.substring(0, 25),
                             this.txid.substring(25)
@@ -351,8 +351,8 @@
                     }
                     return [
                         this.txid.substring(0, 25),
-                        this.txid.substring(25, 52),
-                        this.txid.substring(52)
+                        this.txid.substring(25, 51),
+                        this.txid.substring(51)
                     ];
                 },
                 

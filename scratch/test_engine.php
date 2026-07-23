@@ -30,7 +30,7 @@ try {
         'net_asset' => 'USDT',
         'network' => 'TRX',
         'address' => "T9z4hQQte8K9Mvy4eFtDvU3TxzseryEDy",
-        'txid' => "cf28915cb8a90c8bc6559610907fe3e0fc7de757448eef104041917de3797fa9",
+        'txid' => "cf28915cb8a90c8bc6559610907fe3e0fc7de757448eef104041917de3797f",
         'amount' => '180',
         'amount_asset' => 'USDT',
         'network_fee' => '1.5',

@@ -125,7 +125,7 @@ class ReceiptController extends Controller
             } else {
                 if (mb_strlen($txid) <= 25) {
                     $txidLines = [$txid];
-                } elseif (mb_strlen($txid) <= 52) {
+                } elseif (mb_strlen($txid) <= 51) {
                     $txidLines = [
                         mb_substr($txid, 0, 25),
                         mb_substr($txid, 25)
@@ -133,8 +133,8 @@ class ReceiptController extends Controller
                 } else {
                     $txidLines = [
                         mb_substr($txid, 0, 25),
-                        mb_substr($txid, 25, 27),
-                        mb_substr($txid, 52)
+                        mb_substr($txid, 25, 26),
+                        mb_substr($txid, 51)
                     ];
                 }
             }
