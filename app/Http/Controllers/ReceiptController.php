@@ -109,15 +109,15 @@ class ReceiptController extends Controller
             }
 
             foreach ($addressLines as $idx => $line) {
-                // Line 1 is offset to the left of the copy icon (ends at x=540)
-                // Subsequent lines align to the default right border (ends at x=574)
+                // Line 1 (idx=0): shifted LEFT to x=540, leaving space for copy icon on its right
+                // Line 2+ (idx>0): right-aligned to full right boundary x=574
                 $x = ($idx === 0) ? 540 : $mapping->x_coordinate;
-                $y = $mapping->y_coordinate + ($idx * 20); // 20px spacing
+                $y = $mapping->y_coordinate + ($idx * 20);
                 $this->drawRawText($image, $line, $x, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
             }
 
-            // Draw copy icon next to Line 1 of Recipient Address
-            $image->place(public_path('images/copy-icon.png'), 'top-left', 541, $mapping->y_coordinate + 2);
+            // Copy icon sits to the RIGHT of Line 1 (vertically centred on first line)
+            $image->place(public_path('images/copy-icon.png'), 'top-left', 541, $mapping->y_coordinate + 1);
         }
 
         // 7. Custom Wrapping, Overlays & Underlines for TxID
@@ -142,20 +142,30 @@ class ReceiptController extends Controller
                 }
             }
             $fontFile = public_path('fonts/Inter-Medium.ttf');
+            $totalLines = count($txidLines);
 
             foreach ($txidLines as $idx => $line) {
-                $y = $mapping->y_coordinate + ($idx * 20); // 20px spacing
-                
-                // Only the second line is shifted to the left of the copy icon (ends at 540)
-                // All other lines end at the default right boundary (574)
-                $x = ($idx === 1) ? 540 : $mapping->x_coordinate;
-                
+                $y = $mapping->y_coordinate + ($idx * 20);
+
+                // Reference pattern:
+                // - If 3 lines: Line 1 (idx=0) shifted to 540, Line 2 (idx=1) full width 574 (has copy icon), Line 3 (idx=2) shifted to 540
+                // - If 2 lines: Line 1 (idx=0) shifted to 540, Line 2 (idx=1) full width 574 (has copy icon)
+                // - If 1 line:  Line 1 (idx=0) full width 574 (has copy icon)
+                if ($totalLines === 1) {
+                    $x = $mapping->x_coordinate; // full width
+                } elseif ($totalLines === 2) {
+                    $x = ($idx === 0) ? 540 : $mapping->x_coordinate;
+                } else {
+                    // 3 lines: middle line (idx=1) goes full width with icon, others shifted
+                    $x = ($idx === 1) ? $mapping->x_coordinate : 540;
+                }
+
                 $this->drawRawText($image, $line, $x, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
-                
+
                 $width = $this->getTextWidth($line, $mapping->font_size, $fontFile);
                 $x_start_line = $x - $width;
                 $y_underline = $y + 19;
-                
+
                 $image->drawLine(function ($draw) use ($x_start_line, $x, $y_underline, $mapping) {
                     $draw->from($x_start_line, $y_underline);
                     $draw->to($x, $y_underline);
@@ -164,8 +174,10 @@ class ReceiptController extends Controller
                 });
             }
 
-            // Draw copy icon next to Line 2 of TxID (or Line 1 if only 1 line exists)
-            $y_copy = (count($txidLines) >= 2) ? ($mapping->y_coordinate + 22) : ($mapping->y_coordinate + 2);
+            // Copy icon sits to the RIGHT of Line 2 (the middle / full-width line)
+            // For 1-line TxID: beside Line 1; for 2-line: beside Line 2; for 3-line: beside Line 2
+            $iconLineIdx = ($totalLines >= 2) ? 1 : 0;
+            $y_copy = $mapping->y_coordinate + ($iconLineIdx * 20) + 1;
             $image->place(public_path('images/copy-icon.png'), 'top-left', 541, $y_copy);
         }
 
