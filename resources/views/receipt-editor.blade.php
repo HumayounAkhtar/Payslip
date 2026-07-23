@@ -122,12 +122,18 @@
                                 <input type="text" name="network" x-model="network" class="w-full bg-[#0b0e11] border border-[#2b3139] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-yellow-500 transition duration-200 text-sm">
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-[#848e9c] mb-1">Recipient Address (Use \n for manual breaks)</label>
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="block text-xs font-medium text-[#848e9c]">Recipient Address (Use \n for manual breaks)</label>
+                                    <button type="button" @click="generateRandomAddress()" class="text-xs text-yellow-500 hover:text-yellow-400 font-semibold transition duration-150">Randomly</button>
+                                </div>
                                 <textarea name="address" x-model="address" rows="2" class="w-full bg-[#0b0e11] border border-[#2b3139] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-yellow-500 transition duration-200 text-sm font-mono"></textarea>
                                 <p class="text-[10px] text-[#848e9c] mt-1">First line will wrap automatically if exceeding 30 characters.</p>
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-[#848e9c] mb-1">Transaction ID / TxID (Use \n for manual breaks)</label>
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="block text-xs font-medium text-[#848e9c]">Transaction ID / TxID (Use \n for manual breaks)</label>
+                                    <button type="button" @click="generateRandomTxid()" class="text-xs text-yellow-500 hover:text-yellow-400 font-semibold transition duration-150">Randomly</button>
+                                </div>
                                 <textarea name="txid" x-model="txid" rows="3" class="w-full bg-[#0b0e11] border border-[#2b3139] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-yellow-500 transition duration-200 text-sm font-mono"></textarea>
                                 <p class="text-[10px] text-[#848e9c] mt-1">Lines will wrap automatically if exceeding 31 characters.</p>
                             </div>
@@ -254,7 +260,7 @@
                           <template x-for="(line, idx) in txidLines.slice(2)" :key="idx">
                               <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-[0.5px]"
                                     x-text="line"
-                                    style="font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;"></span>
+                                    style="margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;"></span>
                           </template>
                      </div>
 
@@ -304,6 +310,24 @@
                 
                 getSignalNumber() {
                     return this.signal_status.split('-')[0];
+                },
+
+                generateRandomAddress() {
+                    const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+                    let addr = 'T';
+                    for (let i = 0; i < 33; i++) {
+                        addr += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                    this.address = addr.substring(0, 30) + '\n' + addr.substring(30);
+                },
+                
+                generateRandomTxid() {
+                    const chars = '0123456789abcdef';
+                    let hex = '';
+                    for (let i = 0; i < 64; i++) {
+                        hex += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                    this.txid = hex.substring(0, 31) + '\n' + hex.substring(31, 62) + '\n' + hex.substring(62);
                 },
                 
                 get addressLines() {

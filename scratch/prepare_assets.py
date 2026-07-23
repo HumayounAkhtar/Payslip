@@ -160,6 +160,8 @@ if os.path.exists(sample_path):
             (250, 715, 575, 745),  # Network fee
             (250, 760, 575, 795),  # Wallet type
             (250, 815, 575, 850),  # Date
+            (540, 488, 575, 518),  # Clear under Address copy icon
+            (540, 585, 575, 642),  # Clear under Txid copy icon
         ]
         
         for box in white_boxes:
