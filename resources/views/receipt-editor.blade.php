@@ -79,12 +79,14 @@
                                 <input type="text" name="device_time" x-model="device_time" class="w-full bg-[#0b0e11] border border-[#2b3139] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-yellow-500 transition duration-200 text-sm">
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-[#848e9c] mb-1">Battery Level</label>
-                                <select name="battery_status" x-model="battery_status" class="w-full bg-[#0b0e11] border border-[#2b3139] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-yellow-500 transition duration-200 text-sm">
-                                    <option value="full">Full Charge (100%)</option>
-                                    <option value="medium">Medium Charge (50%)</option>
-                                    <option value="low">Low Charge (15% - Red)</option>
-                                </select>
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="block text-xs font-medium text-[#848e9c]">Battery Level</label>
+                                    <span class="text-xs font-bold text-yellow-500" x-text="battery_percent + '%'"></span>
+                                </div>
+                                <input type="range" min="1" max="100" x-model="battery_percent" 
+                                       class="w-full h-2 bg-[#0b0e11] rounded-lg appearance-none cursor-pointer accent-yellow-500 my-2">
+                                <input type="hidden" name="battery_status" :value="getBatteryStatus()">
+                                <input type="hidden" name="battery_percent" :value="battery_percent">
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-[#848e9c] mb-1">Signal Bars</label>
@@ -198,7 +200,7 @@
                         width: 100cqw;
                         height: calc(1280 * var(--w-factor));
                         border-radius: calc(30 * var(--w-factor));
-                        background-image: url('/templates/clean-slip-bg.png?v=1.1');
+                        background-image: url('/templates/clean-slip-bg.png?v=4.0');
                         background-size: cover;
                         background-repeat: no-repeat;
                      ">
@@ -207,22 +209,22 @@
                      <!-- Time on left -->
                      <span class="absolute text-black font-bold preview-text"
                            x-text="device_time"
-                           style="left: calc(85 * var(--w-factor)); top: calc(26 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="left: calc(81 * var(--w-factor)); top: calc(31 * var(--w-factor)); font-size: calc(17 * var(--w-factor)); line-height: 1;"></span>
                       
                      <!-- Cellular Signal bars -->
-                     <img :src="'/images/status-bar/signal-' + getSignalNumber() + '-bars.png?v=1.3'"
+                     <img :src="'/images/status-bar/signal-' + getSignalNumber() + '-bars.png?v=3.0'"
                           class="absolute"
-                          style="left: calc(430 * var(--w-factor)); top: calc(26 * var(--w-factor)); width: calc(37 * var(--w-factor)); height: calc(23 * var(--w-factor));">
+                          style="left: calc(415 * var(--w-factor)); top: calc(31 * var(--w-factor)); width: calc(31 * var(--w-factor)); height: calc(23 * var(--w-factor));">
                            
                      <!-- Wifi icon (Static) -->
-                     <img src="/images/status-bar/wifi_original.png?v=1.3"
+                     <img src="/images/status-bar/wifi_original.png?v=3.0"
                           class="absolute"
-                          style="left: calc(477 * var(--w-factor)); top: calc(26 * var(--w-factor)); width: calc(33 * var(--w-factor)); height: calc(23 * var(--w-factor));">
+                          style="left: calc(455 * var(--w-factor)); top: calc(31 * var(--w-factor)); width: calc(33 * var(--w-factor)); height: calc(22 * var(--w-factor));">
 
                      <!-- Battery icon -->
-                     <img :src="'/images/status-bar/battery-' + battery_status + '.png?v=1.3'"
+                     <img :src="'/images/status-bar/battery-pct-' + battery_percent + '.png?v=3.0'"
                           class="absolute"
-                          style="left: calc(520 * var(--w-factor)); top: calc(26 * var(--w-factor)); width: calc(49 * var(--w-factor)); height: calc(23 * var(--w-factor));">
+                          style="left: calc(495 * var(--w-factor)); top: calc(31 * var(--w-factor)); width: calc(49 * var(--w-factor)); height: calc(23 * var(--w-factor));">
 
                      <!-- Net Amount -->
                      <span class="absolute text-black font-bold preview-text text-center select-text"
@@ -233,11 +235,11 @@
                      <!-- Network (TRX) -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="network"
-                           style="right: calc(16 * var(--w-factor)); top: calc(416 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(450 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
                            
                      <!-- Address (wrapped) -->
                      <div class="absolute flex flex-col items-end text-right select-text"
-                          style="right: calc(16 * var(--w-factor)); top: calc(464 * var(--w-factor)); width: calc(380 * var(--w-factor));">
+                          style="right: calc(16 * var(--w-factor)); top: calc(500 * var(--w-factor)); width: calc(380 * var(--w-factor));">
                           <template x-for="(line, idx) in addressLines" :key="idx">
                               <span class="text-[#1E2329] font-medium preview-text"
                                     x-text="line"
@@ -246,12 +248,12 @@
                      </div>
 
                      <!-- Address copy icon overlay -->
-                     <img src="/images/copy-icon.png?v=1.1" class="absolute"
-                          style="left: calc(541 * var(--w-factor)); top: calc(466 * var(--w-factor)); width: calc(27 * var(--w-factor)); height: calc(19 * var(--w-factor));">
+                     <img src="/images/copy-icon.png?v=2.0" class="absolute"
+                          style="left: calc(541 * var(--w-factor)); top: calc(500 * var(--w-factor)); width: calc(21 * var(--w-factor)); height: calc(22 * var(--w-factor));">
                      
                      <!-- Txid (wrapped and underlined) — same right/width as Address so lines end at x=540 -->
                      <div class="absolute flex flex-col items-end text-right select-text"
-                          style="right: calc(16 * var(--w-factor)); top: calc(561 * var(--w-factor)); width: calc(380 * var(--w-factor));">
+                          style="right: calc(16 * var(--w-factor)); top: calc(606 * var(--w-factor)); width: calc(380 * var(--w-factor));">
                           <template x-for="(line, idx) in txidLines" :key="idx">
                               <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-[0.5px]"
                                     x-text="line"
@@ -260,28 +262,28 @@
                      </div>
 
                      <!-- Txid copy icon -->
-                     <img src="/images/copy-icon.png?v=1.1" class="absolute"
-                          style="left: calc(541 * var(--w-factor)); top: calc(562 * var(--w-factor)); width: calc(27 * var(--w-factor)); height: calc(19 * var(--w-factor));">
+                     <img src="/images/copy-icon.png?v=2.0" class="absolute"
+                          style="left: calc(541 * var(--w-factor)); top: calc(606 * var(--w-factor)); width: calc(21 * var(--w-factor)); height: calc(22 * var(--w-factor));">
 
                      <!-- Amount -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="amount + ' ' + amount_asset"
-                           style="right: calc(16 * var(--w-factor)); top: calc(664 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(698 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
 
                      <!-- Network fee -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="network_fee + ' ' + fee_asset"
-                           style="right: calc(16 * var(--w-factor)); top: calc(720 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(750 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
 
                      <!-- Withdrawal Wallet -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="withdrawal_wallet"
-                           style="right: calc(16 * var(--w-factor)); top: calc(768 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(802 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
 
                      <!-- Date -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="date"
-                           style="right: calc(16 * var(--w-factor)); top: calc(823 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(855 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
                 </div>
             </div>
         </section>
@@ -292,8 +294,8 @@
     <script>
         function editorApp() {
             return {
-                device_time: '15:57',
-                battery_status: 'full',
+                device_time: '',
+                battery_percent: 100,
                 signal_status: '4-bars',
                 net_amount: '-178.5',
                 net_asset: 'USDT',
@@ -307,6 +309,20 @@
                 withdrawal_wallet: 'Spot Account',
                 date: '2026-07-11 18:49:04',
                 
+                init() {
+                    const now = new Date();
+                    const h = String(now.getHours()).padStart(2, '0');
+                    const m = String(now.getMinutes()).padStart(2, '0');
+                    this.device_time = `${h}:${m}`;
+                },
+
+                getBatteryStatus() {
+                    const pct = parseInt(this.battery_percent) || 100;
+                    if (pct > 65) return 'full';
+                    if (pct > 25) return 'medium';
+                    return 'low';
+                },
+
                 getSignalNumber() {
                     return this.signal_status.split('-')[0];
                 },

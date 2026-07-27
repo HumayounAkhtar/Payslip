@@ -25,7 +25,8 @@ class ReceiptController extends Controller
         // 1. Validate Form Inputs
         $validated = $request->validate([
             'device_time' => ['required', 'string', 'max:10'],
-            'battery_status' => ['required', 'string', 'in:full,medium,low'],
+            'battery_status' => ['nullable', 'string'],
+            'battery_percent' => ['nullable', 'integer', 'min:1', 'max:100'],
             'signal_status' => ['required', 'string', 'in:4-bars,3-bars,2-bars,1-bar'],
             'net_amount' => ['required', 'string', 'max:30'],
             'net_asset' => ['required', 'string', 'max:15'],
@@ -117,7 +118,7 @@ class ReceiptController extends Controller
             }
 
             // Copy icon sits to the RIGHT of Line 1 (vertically centred on first line)
-            $image->place(public_path('images/copy-icon.png'), 'top-left', 541, $mapping->y_coordinate + 1);
+            $image->place(public_path('images/copy-icon.png'), 'top-left', 541, $mapping->y_coordinate);
         }
 
         // 7. Custom Wrapping, Overlays & Underlines for TxID
@@ -165,7 +166,7 @@ class ReceiptController extends Controller
             }
 
             // Copy icon sits at x=541, same as Address — beside the first line
-            $image->place(public_path('images/copy-icon.png'), 'top-left', 541, $mapping->y_coordinate + 1);
+            $image->place(public_path('images/copy-icon.png'), 'top-left', 541, $mapping->y_coordinate);
         }
 
         // 8. Place Status Bar Icons Overlays
@@ -173,20 +174,27 @@ class ReceiptController extends Controller
         $bars = explode('-', $validated['signal_status'])[0];
         $signalIconPath = public_path("images/status-bar/signal-{$bars}-bars.png");
         if (file_exists($signalIconPath)) {
-            $image->place($signalIconPath, 'top-left', 430, 26);
+            $image->place($signalIconPath, 'top-left', 415, 31);
         }
 
-        // Battery Status
-        $battery = $validated['battery_status'];
-        $batteryIconPath = public_path("images/status-bar/battery-{$battery}.png");
+        // Battery Status Overlay (1% - 100% precision)
+        $pct = (int) ($request->input('battery_percent', 100));
+        if ($pct < 1) $pct = 1;
+        if ($pct > 100) $pct = 100;
+
+        $batteryIconPath = public_path("images/status-bar/battery-pct-{$pct}.png");
+        if (!file_exists($batteryIconPath)) {
+            $status = ($pct > 65) ? 'full' : (($pct > 25) ? 'medium' : 'low');
+            $batteryIconPath = public_path("images/status-bar/battery-{$status}.png");
+        }
         if (file_exists($batteryIconPath)) {
-            $image->place($batteryIconPath, 'top-left', 520, 26);
+            $image->place($batteryIconPath, 'top-left', 495, 31);
         }
 
         // Wifi Icon (Static)
         $wifiIconPath = public_path("images/status-bar/wifi_original.png");
         if (file_exists($wifiIconPath)) {
-            $image->place($wifiIconPath, 'top-left', 477, 26);
+            $image->place($wifiIconPath, 'top-left', 455, 31);
         }
 
         // 9. Stream compiled image back to client
