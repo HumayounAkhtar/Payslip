@@ -24,21 +24,21 @@ class ReceiptController extends Controller
     {
         // 1. Validate Form Inputs
         $validated = $request->validate([
-            'device_time' => ['required', 'string', 'max:10'],
+            'device_time' => ['required', 'string'],
             'battery_status' => ['nullable', 'string'],
-            'battery_percent' => ['nullable', 'integer', 'min:1', 'max:100'],
-            'signal_status' => ['required', 'string', 'in:4-bars,3-bars,2-bars,1-bar'],
-            'net_amount' => ['required', 'string', 'max:30'],
-            'net_asset' => ['required', 'string', 'max:15'],
-            'network' => ['required', 'string', 'max:20'],
+            'battery_percent' => ['nullable', 'numeric'],
+            'signal_status' => ['required', 'string'],
+            'net_amount' => ['required', 'string'],
+            'net_asset' => ['required', 'string'],
+            'network' => ['required', 'string'],
             'address' => ['required', 'string'],
             'txid' => ['required', 'string'],
-            'amount' => ['required', 'string', 'max:30'],
-            'amount_asset' => ['required', 'string', 'max:15'],
-            'network_fee' => ['required', 'string', 'max:30'],
-            'fee_asset' => ['required', 'string', 'max:15'],
-            'withdrawal_wallet' => ['required', 'string', 'max:50'],
-            'date' => ['required', 'string', 'max:40'],
+            'amount' => ['required', 'string'],
+            'amount_asset' => ['required', 'string'],
+            'network_fee' => ['required', 'string'],
+            'fee_asset' => ['required', 'string'],
+            'withdrawal_wallet' => ['required', 'string'],
+            'date' => ['required', 'string'],
         ]);
 
         // 2. Initialize Image Manager with GD driver

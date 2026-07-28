@@ -27,9 +27,9 @@ class DatabaseSeeder extends Seeder
         $mappings = [
             [
                 'field_key' => 'device_time',
-                'x_coordinate' => 85,
-                'y_coordinate' => 26,
-                'font_size' => 16,
+                'x_coordinate' => 81,
+                'y_coordinate' => 31,
+                'font_size' => 17,
                 'font_color' => '#000000',
                 'font_weight' => 'bold',
                 'text_align' => 'left',
@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'network',
                 'x_coordinate' => 574,
-                'y_coordinate' => 450,
+                'y_coordinate' => 454,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'address',
                 'x_coordinate' => 574,
-                'y_coordinate' => 500,
+                'y_coordinate' => 504,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'txid',
                 'x_coordinate' => 574,
-                'y_coordinate' => 606,
+                'y_coordinate' => 610,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
@@ -73,7 +73,7 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'amount',
                 'x_coordinate' => 574,
-                'y_coordinate' => 698,
+                'y_coordinate' => 702,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
@@ -82,7 +82,7 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'network_fee',
                 'x_coordinate' => 574,
-                'y_coordinate' => 750,
+                'y_coordinate' => 754,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
@@ -91,7 +91,7 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'withdrawal_wallet',
                 'x_coordinate' => 574,
-                'y_coordinate' => 802,
+                'y_coordinate' => 806,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
@@ -100,12 +100,12 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'date',
                 'x_coordinate' => 574,
-                'y_coordinate' => 855,
+                'y_coordinate' => 859,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
                 'text_align' => 'right',
-            ]
+            ],
         ];
 
         foreach ($mappings as $mapping) {

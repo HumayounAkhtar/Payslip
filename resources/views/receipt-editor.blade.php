@@ -170,18 +170,35 @@
                             </div>
                         </div>
                         <div class="pt-2">
-                            <label class="block text-xs font-medium text-[#848e9c] mb-1">Transaction Timestamp</label>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="block text-xs font-medium text-[#848e9c]">Transaction Timestamp</label>
+                                <button type="button" @click="setChinaTime()" class="text-xs font-semibold text-yellow-500 hover:text-yellow-400 bg-yellow-500/10 hover:bg-yellow-500/20 px-2.5 py-1 rounded-lg transition duration-150 flex items-center space-x-1 border border-yellow-500/20">
+                                    <span>🇨🇳 China Time (UTC+8)</span>
+                                </button>
+                            </div>
                             <input type="text" name="date" x-model="date" class="w-full bg-[#0b0e11] border border-[#2b3139] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-yellow-500 transition duration-200 text-sm">
                         </div>
                     </div>
 
-                    <!-- Action Button -->
-                    <button type="submit" class="w-full flex justify-center items-center py-4 px-6 border border-transparent rounded-2xl text-base font-bold text-[#0b0e11] bg-gradient-to-r from-[#FCD535] to-[#F3BA2F] hover:from-yellow-400 hover:to-yellow-500 focus:outline-none shadow-lg shadow-yellow-500/10 hover:shadow-yellow-500/20 transition duration-150 transform hover:-translate-y-0.5">
-                        <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        <span>Download High-Fidelity Slip (PNG)</span>
-                    </button>
+                    <!-- Action Buttons -->
+                    <div class="space-y-3 pt-2">
+                        <button type="button" 
+                                @click="copyGeneratedImage()"
+                                :disabled="copying"
+                                class="w-full flex justify-center items-center py-3.5 px-6 border border-[#2b3139] rounded-2xl text-base font-bold text-white bg-[#181a20] hover:bg-[#232730] focus:outline-none shadow-md transition duration-150 transform hover:-translate-y-0.5">
+                            <svg class="h-5 w-5 mr-2 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 012-2v-8a2 2 0 01-2-2h-8a2 2 0 01-2 2v8a2 2 0 012 2z" />
+                            </svg>
+                            <span x-text="copying ? 'Copying Image...' : (copied ? '✓ Image Copied to Clipboard!' : 'Copy Image to Clipboard')"></span>
+                        </button>
+
+                        <button type="submit" class="w-full flex justify-center items-center py-4 px-6 border border-transparent rounded-2xl text-base font-bold text-[#0b0e11] bg-gradient-to-r from-[#FCD535] to-[#F3BA2F] hover:from-yellow-400 hover:to-yellow-500 focus:outline-none shadow-lg shadow-yellow-500/10 hover:shadow-yellow-500/20 transition duration-150 transform hover:-translate-y-0.5">
+                            <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            <span>Download High-Fidelity Slip (PNG)</span>
+                        </button>
+                    </div>
 
                 </form>
 
@@ -200,7 +217,7 @@
                         width: 100cqw;
                         height: calc(1280 * var(--w-factor));
                         border-radius: calc(30 * var(--w-factor));
-                        background-image: url('/templates/clean-slip-bg.png?v=4.0');
+                        background-image: url('/templates/clean-slip-bg.png?v=5.0');
                         background-size: cover;
                         background-repeat: no-repeat;
                      ">
@@ -215,7 +232,7 @@
                      <img :src="'/images/status-bar/signal-' + getSignalNumber() + '-bars.png?v=3.0'"
                           class="absolute"
                           style="left: calc(415 * var(--w-factor)); top: calc(31 * var(--w-factor)); width: calc(31 * var(--w-factor)); height: calc(23 * var(--w-factor));">
-                           
+                            
                      <!-- Wifi icon (Static) -->
                      <img src="/images/status-bar/wifi_original.png?v=3.0"
                           class="absolute"
@@ -235,11 +252,11 @@
                      <!-- Network (TRX) -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="network"
-                           style="right: calc(16 * var(--w-factor)); top: calc(450 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
-                           
+                           style="right: calc(16 * var(--w-factor)); top: calc(454 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                            
                      <!-- Address (wrapped) -->
                      <div class="absolute flex flex-col items-end text-right select-text"
-                          style="right: calc(16 * var(--w-factor)); top: calc(500 * var(--w-factor)); width: calc(380 * var(--w-factor));">
+                          style="right: calc(16 * var(--w-factor)); top: calc(504 * var(--w-factor)); width: calc(380 * var(--w-factor));">
                           <template x-for="(line, idx) in addressLines" :key="idx">
                               <span class="text-[#1E2329] font-medium preview-text"
                                     x-text="line"
@@ -249,11 +266,11 @@
 
                      <!-- Address copy icon overlay -->
                      <img src="/images/copy-icon.png?v=2.0" class="absolute"
-                          style="left: calc(541 * var(--w-factor)); top: calc(500 * var(--w-factor)); width: calc(21 * var(--w-factor)); height: calc(22 * var(--w-factor));">
+                          style="left: calc(541 * var(--w-factor)); top: calc(505 * var(--w-factor)); width: calc(21 * var(--w-factor)); height: calc(22 * var(--w-factor));">
                      
                      <!-- Txid (wrapped and underlined) — same right/width as Address so lines end at x=540 -->
                      <div class="absolute flex flex-col items-end text-right select-text"
-                          style="right: calc(16 * var(--w-factor)); top: calc(606 * var(--w-factor)); width: calc(380 * var(--w-factor));">
+                          style="right: calc(16 * var(--w-factor)); top: calc(610 * var(--w-factor)); width: calc(380 * var(--w-factor));">
                           <template x-for="(line, idx) in txidLines" :key="idx">
                               <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-[0.5px]"
                                     x-text="line"
@@ -263,32 +280,70 @@
 
                      <!-- Txid copy icon -->
                      <img src="/images/copy-icon.png?v=2.0" class="absolute"
-                          style="left: calc(541 * var(--w-factor)); top: calc(606 * var(--w-factor)); width: calc(21 * var(--w-factor)); height: calc(22 * var(--w-factor));">
+                          style="left: calc(541 * var(--w-factor)); top: calc(611 * var(--w-factor)); width: calc(21 * var(--w-factor)); height: calc(22 * var(--w-factor));">
 
                      <!-- Amount -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="amount + ' ' + amount_asset"
-                           style="right: calc(16 * var(--w-factor)); top: calc(698 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(702 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
 
                      <!-- Network fee -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="network_fee + ' ' + fee_asset"
-                           style="right: calc(16 * var(--w-factor)); top: calc(750 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(754 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
 
                      <!-- Withdrawal Wallet -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="withdrawal_wallet"
-                           style="right: calc(16 * var(--w-factor)); top: calc(802 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(806 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
 
                      <!-- Date -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="date"
-                           style="right: calc(16 * var(--w-factor)); top: calc(855 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(859 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
                 </div>
             </div>
         </section>
         
     </main>
+
+    <!-- Quick Copy Image Modal for 100% universal right-click / direct copy -->
+    <div x-show="showCopyModal"
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+         style="display: none;">
+        <div @click.away="showCopyModal = false" class="bg-[#181a20] border border-[#2b3139] rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-[#2b3139] pb-3">
+                <h3 class="text-base font-bold text-white flex items-center space-x-2">
+                    <span class="text-yellow-500">📋</span>
+                    <span>Copy Image directly</span>
+                </h3>
+                <button @click="showCopyModal = false" class="text-gray-400 hover:text-white font-bold text-lg leading-none">&times;</button>
+            </div>
+            
+            <p class="text-xs text-[#848e9c] leading-relaxed">
+                Right-click the image below and select <strong class="text-yellow-500">"Copy Image"</strong> to paste (<kbd class="bg-[#2b3139] px-1.5 py-0.5 rounded text-white font-mono">Ctrl+V</kbd>) directly into Telegram, WhatsApp, or WeChat!
+            </p>
+
+            <div class="bg-black/50 border border-[#2b3139] rounded-xl p-2 max-h-[440px] overflow-y-auto flex justify-center items-center">
+                <img :src="modalImageUrl" id="modalCopyImage" class="max-w-full h-auto rounded shadow select-all cursor-pointer" alt="Binance Receipt Slip">
+            </div>
+
+            <div class="flex space-x-3 pt-2">
+                <button type="button" @click="copyModalImageDirect()" class="flex-1 bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2.5 px-4 rounded-xl text-sm transition duration-150">
+                    <span x-text="modalCopied ? '✓ Image Copied!' : 'Copy Image'"></span>
+                </button>
+                <button type="button" @click="showCopyModal = false" class="bg-[#2b3139] hover:bg-[#363c44] text-gray-300 font-bold py-2.5 px-4 rounded-xl text-sm transition duration-150">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Alpine.js script logic -->
     <script>
@@ -309,11 +364,113 @@
                 withdrawal_wallet: 'Spot Account',
                 date: '2026-07-11 18:49:04',
                 
+                copying: false,
+                copied: false,
+                showCopyModal: false,
+                modalImageUrl: '',
+                modalCopied: false,
+                
                 init() {
                     const now = new Date();
                     const h = String(now.getHours()).padStart(2, '0');
                     const m = String(now.getMinutes()).padStart(2, '0');
                     this.device_time = `${h}:${m}`;
+                },
+
+                setChinaTime() {
+                    const now = new Date();
+                    const utc8 = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (8 * 3600000));
+                    const year = utc8.getFullYear();
+                    const month = String(utc8.getMonth() + 1).padStart(2, '0');
+                    const day = String(utc8.getDate()).padStart(2, '0');
+                    const hours = String(utc8.getHours()).padStart(2, '0');
+                    const minutes = String(utc8.getMinutes()).padStart(2, '0');
+                    const seconds = String(utc8.getSeconds()).padStart(2, '0');
+                    this.date = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                },
+
+                async copyGeneratedImage() {
+                    this.copying = true;
+                    this.copied = false;
+                    
+                    if (document.hasFocus && !document.hasFocus()) {
+                        window.focus();
+                    }
+
+                    try {
+                        const formElement = document.querySelector('form');
+                        const formData = new FormData(formElement);
+                        
+                        // Extract fresh CSRF token from form or meta tag
+                        const csrfToken = document.querySelector('input[name="_token"]')?.value || '{{ csrf_token() }}';
+                        formData.set('_token', csrfToken);
+
+                        const response = await fetch('{{ route("generate") }}', {
+                            method: 'POST',
+                            body: formData,
+                            credentials: 'same-origin',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'X-CSRF-TOKEN': csrfToken
+                            }
+                        });
+
+                        if (!response.ok) {
+                            const errText = await response.text();
+                            console.error('Receipt generation server error:', response.status, errText);
+                            throw new Error('Server returned HTTP ' + response.status);
+                        }
+
+                        const ab = await response.arrayBuffer();
+                        const pngBlob = new Blob([ab], { type: 'image/png' });
+
+                        // Try direct Async Clipboard API
+                        if (navigator.clipboard && typeof ClipboardItem !== 'undefined') {
+                            try {
+                                const item = new ClipboardItem({ 'image/png': pngBlob });
+                                await navigator.clipboard.write([item]);
+                                this.copied = true;
+                                setTimeout(() => { this.copied = false; }, 3500);
+                                return;
+                            } catch (clipErr) {
+                                console.warn('Direct ClipboardItem write failed, opening modal:', clipErr);
+                            }
+                        }
+
+                        // Open Quick Copy Modal for 100% universal right-click copy & selection copy
+                        if (this.modalImageUrl) URL.revokeObjectURL(this.modalImageUrl);
+                        this.modalImageUrl = URL.createObjectURL(pngBlob);
+                        this.showCopyModal = true;
+                        this.modalCopied = false;
+
+                    } catch (err) {
+                        console.error('Copy image error:', err);
+                        alert('Could not generate receipt image: ' + err.message + '. Please check form values.');
+                    } finally {
+                        this.copying = false;
+                    }
+                },
+
+                copyModalImageDirect() {
+                    const img = document.getElementById('modalCopyImage');
+                    if (!img) return;
+                    try {
+                        const range = document.createRange();
+                        range.selectNode(img);
+                        const sel = window.getSelection();
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                        
+                        const success = document.execCommand('copy');
+                        if (success) {
+                            this.modalCopied = true;
+                            setTimeout(() => { this.modalCopied = false; }, 3000);
+                        } else {
+                            alert('Please right-click the image and select "Copy Image".');
+                        }
+                    } catch (e) {
+                        alert('Please right-click the image and select "Copy Image".');
+                    }
                 },
 
                 getBatteryStatus() {
