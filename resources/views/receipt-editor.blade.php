@@ -75,7 +75,12 @@
                         <h3 class="text-sm font-bold text-yellow-500 uppercase tracking-wider mb-2">Device Status Indicators</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label class="block text-xs font-medium text-[#848e9c] mb-1">Status Time</label>
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="block text-xs font-medium text-[#848e9c]">Status Time</label>
+                                    <button type="button" @click="setChinaDeviceTime()" class="text-[10px] font-semibold text-yellow-500 hover:text-yellow-400 bg-yellow-500/10 hover:bg-yellow-500/20 px-2 py-0.5 rounded transition duration-150 border border-yellow-500/20 flex items-center space-x-1">
+                                        <span>🇨🇳 China Time</span>
+                                    </button>
+                                </div>
                                 <input type="text" name="device_time" x-model="device_time" class="w-full bg-[#0b0e11] border border-[#2b3139] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-yellow-500 transition duration-200 text-sm">
                             </div>
                             <div>
@@ -375,6 +380,14 @@
                     const h = String(now.getHours()).padStart(2, '0');
                     const m = String(now.getMinutes()).padStart(2, '0');
                     this.device_time = `${h}:${m}`;
+                },
+
+                setChinaDeviceTime() {
+                    const now = new Date();
+                    const utc8 = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (8 * 3600000));
+                    const hours = String(utc8.getHours()).padStart(2, '0');
+                    const minutes = String(utc8.getMinutes()).padStart(2, '0');
+                    this.device_time = `${hours}:${minutes}`;
                 },
 
                 setChinaTime() {
