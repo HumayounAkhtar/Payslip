@@ -217,7 +217,7 @@
                         width: 100cqw;
                         height: calc(1280 * var(--w-factor));
                         border-radius: calc(30 * var(--w-factor));
-                        background-image: url('/templates/clean-slip-bg.png?v=6.0');
+                        background-image: url('/templates/clean-slip-bg.png?v=7.0');
                         background-size: cover;
                         background-repeat: no-repeat;
                      ">

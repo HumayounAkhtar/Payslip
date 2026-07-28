@@ -10,10 +10,47 @@ use Intervention\Image\Drivers\Gd\Driver;
 class ReceiptController extends Controller
 {
     /**
+     * Helper: Sync database mappings automatically on live/local server to guarantee perfect alignment.
+     */
+    private function syncDatabaseMappings()
+    {
+        try {
+            $master = [
+                'device_time' => ['x' => 81, 'y' => 31],
+                'net_amount' => ['x' => 295, 'y' => 166],
+                'network' => ['x' => 574, 'y' => 450],
+                'address' => ['x' => 574, 'y' => 500],
+                'txid' => ['x' => 574, 'y' => 606],
+                'amount' => ['x' => 574, 'y' => 698],
+                'network_fee' => ['x' => 574, 'y' => 750],
+                'withdrawal_wallet' => ['x' => 574, 'y' => 802],
+                'date' => ['x' => 574, 'y' => 855],
+            ];
+
+            foreach ($master as $key => $coords) {
+                ReceiptFieldMapping::updateOrCreate(
+                    ['field_key' => $key],
+                    [
+                        'x_coordinate' => $coords['x'],
+                        'y_coordinate' => $coords['y'],
+                        'font_size' => ($key === 'device_time') ? 17 : (($key === 'net_amount') ? 38 : 16),
+                        'font_color' => '#1E2329',
+                        'font_weight' => ($key === 'device_time' || $key === 'net_amount') ? 'bold' : 'medium',
+                        'text_align' => ($key === 'device_time') ? 'left' : (($key === 'net_amount') ? 'center' : 'right'),
+                    ]
+                );
+            }
+        } catch (\Exception $e) {
+            // Ignore DB sync error if table missing
+        }
+    }
+
+    /**
      * Show the receipt editor dashboard.
      */
     public function showEditor()
     {
+        $this->syncDatabaseMappings();
         return view('receipt-editor');
     }
 
@@ -22,6 +59,8 @@ class ReceiptController extends Controller
      */
     public function generateReceipt(Request $request)
     {
+        $this->syncDatabaseMappings();
+        
         // 1. Validate Form Inputs
         $validated = $request->validate([
             'device_time' => ['required', 'string'],
