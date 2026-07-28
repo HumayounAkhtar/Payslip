@@ -217,7 +217,7 @@
                         width: 100cqw;
                         height: calc(1280 * var(--w-factor));
                         border-radius: calc(30 * var(--w-factor));
-                        background-image: url('/templates/clean-slip-bg.png?v=5.0');
+                        background-image: url('/templates/clean-slip-bg.png?v=6.0');
                         background-size: cover;
                         background-repeat: no-repeat;
                      ">
@@ -252,11 +252,11 @@
                      <!-- Network (TRX) -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="network"
-                           style="right: calc(16 * var(--w-factor)); top: calc(454 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(450 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
                             
                      <!-- Address (wrapped) -->
                      <div class="absolute flex flex-col items-end text-right select-text"
-                          style="right: calc(16 * var(--w-factor)); top: calc(504 * var(--w-factor)); width: calc(380 * var(--w-factor));">
+                          style="right: calc(16 * var(--w-factor)); top: calc(500 * var(--w-factor)); width: calc(380 * var(--w-factor));">
                           <template x-for="(line, idx) in addressLines" :key="idx">
                               <span class="text-[#1E2329] font-medium preview-text"
                                     x-text="line"
@@ -266,11 +266,11 @@
 
                      <!-- Address copy icon overlay -->
                      <img src="/images/copy-icon.png?v=2.0" class="absolute"
-                          style="left: calc(541 * var(--w-factor)); top: calc(505 * var(--w-factor)); width: calc(21 * var(--w-factor)); height: calc(22 * var(--w-factor));">
+                          style="left: calc(541 * var(--w-factor)); top: calc(500 * var(--w-factor)); width: calc(21 * var(--w-factor)); height: calc(22 * var(--w-factor));">
                      
                      <!-- Txid (wrapped and underlined) — same right/width as Address so lines end at x=540 -->
                      <div class="absolute flex flex-col items-end text-right select-text"
-                          style="right: calc(16 * var(--w-factor)); top: calc(610 * var(--w-factor)); width: calc(380 * var(--w-factor));">
+                          style="right: calc(16 * var(--w-factor)); top: calc(606 * var(--w-factor)); width: calc(380 * var(--w-factor));">
                           <template x-for="(line, idx) in txidLines" :key="idx">
                               <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-[0.5px]"
                                     x-text="line"
@@ -280,27 +280,27 @@
 
                      <!-- Txid copy icon -->
                      <img src="/images/copy-icon.png?v=2.0" class="absolute"
-                          style="left: calc(541 * var(--w-factor)); top: calc(611 * var(--w-factor)); width: calc(21 * var(--w-factor)); height: calc(22 * var(--w-factor));">
+                          style="left: calc(541 * var(--w-factor)); top: calc(606 * var(--w-factor)); width: calc(21 * var(--w-factor)); height: calc(22 * var(--w-factor));">
 
                      <!-- Amount -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="amount + ' ' + amount_asset"
-                           style="right: calc(16 * var(--w-factor)); top: calc(702 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(698 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
 
                      <!-- Network fee -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="network_fee + ' ' + fee_asset"
-                           style="right: calc(16 * var(--w-factor)); top: calc(754 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(750 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
 
                      <!-- Withdrawal Wallet -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="withdrawal_wallet"
-                           style="right: calc(16 * var(--w-factor)); top: calc(806 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(802 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
 
                      <!-- Date -->
                      <span class="absolute text-[#1E2329] font-medium preview-text text-right select-text"
                            x-text="date"
-                           style="right: calc(16 * var(--w-factor)); top: calc(859 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
+                           style="right: calc(16 * var(--w-factor)); top: calc(855 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1;"></span>
                 </div>
             </div>
         </section>

@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'network',
                 'x_coordinate' => 574,
-                'y_coordinate' => 454,
+                'y_coordinate' => 450,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'address',
                 'x_coordinate' => 574,
-                'y_coordinate' => 504,
+                'y_coordinate' => 500,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'txid',
                 'x_coordinate' => 574,
-                'y_coordinate' => 610,
+                'y_coordinate' => 606,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
@@ -73,7 +73,7 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'amount',
                 'x_coordinate' => 574,
-                'y_coordinate' => 702,
+                'y_coordinate' => 698,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
@@ -82,7 +82,7 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'network_fee',
                 'x_coordinate' => 574,
-                'y_coordinate' => 754,
+                'y_coordinate' => 750,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
@@ -91,7 +91,7 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'withdrawal_wallet',
                 'x_coordinate' => 574,
-                'y_coordinate' => 806,
+                'y_coordinate' => 802,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
@@ -100,7 +100,7 @@ class DatabaseSeeder extends Seeder
             [
                 'field_key' => 'date',
                 'x_coordinate' => 574,
-                'y_coordinate' => 859,
+                'y_coordinate' => 855,
                 'font_size' => 16,
                 'font_color' => '#1E2329',
                 'font_weight' => 'medium',
