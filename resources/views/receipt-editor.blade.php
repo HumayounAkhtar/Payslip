@@ -276,11 +276,11 @@
                      <!-- Txid (wrapped and underlined) — same right/width as Address so lines end at x=540 -->
                      <div class="absolute flex flex-col items-end text-right select-text"
                           style="right: calc(16 * var(--w-factor)); top: calc(606 * var(--w-factor)); width: calc(380 * var(--w-factor));">
-                          <template x-for="(line, idx) in txidLines" :key="idx">
-                              <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-[0.5px]"
-                                    x-text="line"
-                                    style="margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.3; margin-bottom: 2px;"></span>
-                          </template>
+                           <template x-for="(line, idx) in txidLines" :key="idx">
+                               <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-0"
+                                     x-text="line"
+                                     style="margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.15; margin-bottom: calc(3.5 * var(--w-factor));"></span>
+                           </template>
                      </div>
 
                      <!-- Txid copy icon -->

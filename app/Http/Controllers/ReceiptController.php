@@ -194,7 +194,7 @@ class ReceiptController extends Controller
 
                 $width = $this->getTextWidth($line, $mapping->font_size, $fontFile);
                 $x_start_line = $x - $width;
-                $y_underline = $y + 19;
+                $y_underline = $y + 16;
 
                 $image->drawLine(function ($draw) use ($x_start_line, $x, $y_underline, $mapping) {
                     $draw->from($x_start_line, $y_underline);
