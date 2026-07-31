@@ -222,31 +222,31 @@
                         width: 100cqw;
                         height: calc(1280 * var(--w-factor));
                         border-radius: calc(30 * var(--w-factor));
-                        background-image: url('/templates/clean-slip-bg.png?v=7.0');
+                        background-image: url('/templates/clean-slip-bg.png?v=8.0');
                         background-size: cover;
                         background-repeat: no-repeat;
                      ">
                      
                      <!-- Status Bar overlays -->
-                     <!-- Time on left -->
+                     <!-- Time on left (enlarged font size 19.5px, aligned top 33) -->
                      <span class="absolute text-black font-bold preview-text"
                            x-text="device_time"
-                           style="left: calc(81 * var(--w-factor)); top: calc(31 * var(--w-factor)); font-size: calc(17 * var(--w-factor)); line-height: 1;"></span>
+                           style="left: calc(81 * var(--w-factor)); top: calc(33 * var(--w-factor)); font-size: calc(19.5 * var(--w-factor)); line-height: 1;"></span>
                       
                      <!-- Cellular Signal bars -->
                      <img :src="'/images/status-bar/signal-' + getSignalNumber() + '-bars.png?v=3.0'"
                           class="absolute"
-                          style="left: calc(415 * var(--w-factor)); top: calc(31 * var(--w-factor)); width: calc(31 * var(--w-factor)); height: calc(23 * var(--w-factor));">
+                          style="left: calc(415 * var(--w-factor)); top: calc(30 * var(--w-factor)); width: calc(31 * var(--w-factor)); height: calc(22 * var(--w-factor));">
                             
                      <!-- Wifi icon (Static) -->
                      <img src="/images/status-bar/wifi_original.png?v=3.0"
                           class="absolute"
-                          style="left: calc(455 * var(--w-factor)); top: calc(31 * var(--w-factor)); width: calc(33 * var(--w-factor)); height: calc(22 * var(--w-factor));">
+                          style="left: calc(455 * var(--w-factor)); top: calc(30 * var(--w-factor)); width: calc(33 * var(--w-factor)); height: calc(22 * var(--w-factor));">
 
                      <!-- Battery icon -->
                      <img :src="'/images/status-bar/battery-pct-' + battery_percent + '.png?v=3.0'"
                           class="absolute"
-                          style="left: calc(495 * var(--w-factor)); top: calc(31 * var(--w-factor)); width: calc(49 * var(--w-factor)); height: calc(23 * var(--w-factor));">
+                          style="left: calc(495 * var(--w-factor)); top: calc(30 * var(--w-factor)); width: calc(49 * var(--w-factor)); height: calc(22 * var(--w-factor));">
 
                      <!-- Net Amount -->
                      <span class="absolute text-black font-bold preview-text text-center select-text"

@@ -16,7 +16,7 @@ class ReceiptController extends Controller
     {
         try {
             $master = [
-                'device_time' => ['x' => 81, 'y' => 31],
+                'device_time' => ['x' => 81, 'y' => 33],
                 'net_amount' => ['x' => 295, 'y' => 166],
                 'network' => ['x' => 574, 'y' => 450],
                 'address' => ['x' => 574, 'y' => 500],
@@ -33,8 +33,8 @@ class ReceiptController extends Controller
                     [
                         'x_coordinate' => $coords['x'],
                         'y_coordinate' => $coords['y'],
-                        'font_size' => ($key === 'device_time') ? 17 : (($key === 'net_amount') ? 38 : 16),
-                        'font_color' => '#1E2329',
+                        'font_size' => ($key === 'device_time') ? 19.5 : (($key === 'net_amount') ? 38 : 16),
+                        'font_color' => '#000000',
                         'font_weight' => ($key === 'device_time' || $key === 'net_amount') ? 'bold' : 'medium',
                         'text_align' => ($key === 'device_time') ? 'left' : (($key === 'net_amount') ? 'center' : 'right'),
                     ]
@@ -213,7 +213,7 @@ class ReceiptController extends Controller
         $bars = explode('-', $validated['signal_status'])[0];
         $signalIconPath = public_path("images/status-bar/signal-{$bars}-bars.png");
         if (file_exists($signalIconPath)) {
-            $image->place($signalIconPath, 'top-left', 415, 31);
+            $image->place($signalIconPath, 'top-left', 415, 30);
         }
 
         // Battery Status Overlay (1% - 100% precision)
@@ -227,13 +227,13 @@ class ReceiptController extends Controller
             $batteryIconPath = public_path("images/status-bar/battery-{$status}.png");
         }
         if (file_exists($batteryIconPath)) {
-            $image->place($batteryIconPath, 'top-left', 495, 31);
+            $image->place($batteryIconPath, 'top-left', 495, 30);
         }
 
         // Wifi Icon (Static)
         $wifiIconPath = public_path("images/status-bar/wifi_original.png");
         if (file_exists($wifiIconPath)) {
-            $image->place($wifiIconPath, 'top-left', 455, 31);
+            $image->place($wifiIconPath, 'top-left', 455, 30);
         }
 
         // 9. Stream compiled image back to client
