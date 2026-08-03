@@ -273,15 +273,17 @@
                      <img src="/images/copy-icon.png?v=2.0" class="absolute"
                           style="left: calc(541 * var(--w-factor)); top: calc(500 * var(--w-factor)); width: calc(21 * var(--w-factor)); height: calc(22 * var(--w-factor));">
                      
-                     <!-- Txid (wrapped and underlined) — same right/width as Address so lines end at x=540 -->
-                     <div class="absolute flex flex-col items-end text-right select-text"
-                          style="right: calc(16 * var(--w-factor)); top: calc(606 * var(--w-factor)); width: calc(380 * var(--w-factor));">
-                           <template x-for="(line, idx) in txidLines" :key="idx">
-                               <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-0"
-                                     x-text="line"
-                                     style="margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.15; margin-bottom: calc(3.5 * var(--w-factor));"></span>
-                           </template>
-                     </div>
+                     <!-- Txid (wrapped and underlined) — same right boundary (x=540) as Address -->
+                      <div class="absolute flex flex-col select-text"
+                           style="right: calc(50 * var(--w-factor)); top: calc(606 * var(--w-factor)); width: calc(236 * var(--w-factor));">
+                            <template x-for="(line, idx) in txidLines" :key="idx">
+                                <div class="flex w-full" :class="(idx === txidLines.length - 1 && txidLines.length > 2) ? 'justify-end' : 'justify-start'">
+                                    <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-0"
+                                          x-text="line"
+                                          style="font-size: calc(16 * var(--w-factor)); line-height: 1.15; margin-bottom: calc(3.5 * var(--w-factor));"></span>
+                                </div>
+                            </template>
+                      </div>
 
                      <!-- Txid copy icon -->
                      <img src="/images/copy-icon.png?v=2.0" class="absolute"
@@ -537,7 +539,7 @@
                     if (this.txid.length <= 25) {
                         return [this.txid];
                     }
-                    if (this.txid.length <= 51) {
+                    if (this.txid.length <= 50) {
                         return [
                             this.txid.substring(0, 25),
                             this.txid.substring(25)
@@ -545,8 +547,8 @@
                     }
                     return [
                         this.txid.substring(0, 25),
-                        this.txid.substring(25, 51),
-                        this.txid.substring(51)
+                        this.txid.substring(25, 50),
+                        this.txid.substring(50)
                     ];
                 },
                 

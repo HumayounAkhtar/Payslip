@@ -168,7 +168,7 @@ class ReceiptController extends Controller
             } else {
                 if (mb_strlen($txid) <= 25) {
                     $txidLines = [$txid];
-                } elseif (mb_strlen($txid) <= 51) {
+                } elseif (mb_strlen($txid) <= 50) {
                     $txidLines = [
                         mb_substr($txid, 0, 25),
                         mb_substr($txid, 25)
@@ -176,29 +176,37 @@ class ReceiptController extends Controller
                 } else {
                     $txidLines = [
                         mb_substr($txid, 0, 25),
-                        mb_substr($txid, 25, 26),
-                        mb_substr($txid, 51)
+                        mb_substr($txid, 25, 25),
+                        mb_substr($txid, 50)
                     ];
                 }
             }
             $fontFile = public_path('fonts/Inter-Medium.ttf');
             $totalLines = count($txidLines);
+            $line1Width = $this->getTextWidth($txidLines[0], $mapping->font_size, $fontFile);
+            $x_left_start = 540 - $line1Width;
 
             foreach ($txidLines as $idx => $line) {
                 $y = $mapping->y_coordinate + ($idx * 20);
+                $lineWidth = $this->getTextWidth($line, $mapping->font_size, $fontFile);
 
-                // ALL TxID lines end at x=540 — same as Address, copy icon sits at x=541
-                $x = 540;
+                if ($idx < $totalLines - 1) {
+                    // Line 1 & Line 2 start at exact $x_left_start so 'c' and '0' align vertically
+                    $this->drawRawText($image, $line, $x_left_start, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'left');
+                    $x_start_line = $x_left_start;
+                    $x_end_line = $x_left_start + $lineWidth;
+                } else {
+                    // Last line (Line 3): right-aligned to x=540, underline spans only under its numbers
+                    $x_end_line = 540;
+                    $x_start_line = 540 - $lineWidth;
+                    $this->drawRawText($image, $line, 540, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
+                }
 
-                $this->drawRawText($image, $line, $x, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
-
-                $width = $this->getTextWidth($line, $mapping->font_size, $fontFile);
-                $x_start_line = $x - $width;
                 $y_underline = $y + 16;
 
-                $image->drawLine(function ($draw) use ($x_start_line, $x, $y_underline, $mapping) {
+                $image->drawLine(function ($draw) use ($x_start_line, $x_end_line, $y_underline, $mapping) {
                     $draw->from($x_start_line, $y_underline);
-                    $draw->to($x, $y_underline);
+                    $draw->to($x_end_line, $y_underline);
                     $draw->color($mapping->font_color);
                     $draw->width(1);
                 });
