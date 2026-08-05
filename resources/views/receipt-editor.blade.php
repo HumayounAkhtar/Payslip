@@ -282,13 +282,30 @@
                      <img src="/images/copy-icon.png?v=2.0" class="absolute"
                           style="left: calc(541 * var(--w-factor)); top: calc(500 * var(--w-factor)); width: calc(21 * var(--w-factor)); height: calc(22 * var(--w-factor));">
                       
-                      <!-- Txid (wrapped and underlined) — right aligned, matching downloaded PNG 100% -->
-                      <div class="absolute flex flex-col items-end text-right select-text"
-                           style="right: calc(16 * var(--w-factor)); top: calc(606 * var(--w-factor)); width: calc(380 * var(--w-factor));">
+                      <!-- Txid lines: L1 & L2 chars spread full width (justify-between) so left AND right edges align; L3 right-aligned -->
+                      <div class="absolute flex flex-col items-end select-text"
+                           style="right: calc(50 * var(--w-factor)); top: calc(606 * var(--w-factor)); width: calc(235 * var(--w-factor));">
                             <template x-for="(line, idx) in txidLines" :key="idx">
-                                <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-0"
-                                      x-text="line"
-                                      style="margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.15; margin-bottom: calc(3.5 * var(--w-factor));"></span>
+                                <div class="w-full flex"
+                                     style="margin-bottom: calc(3.5 * var(--w-factor));"
+                                     :class="(txidLines.length > 2 && idx === txidLines.length - 1) ? 'justify-end' : 'justify-between'">
+                                    <!-- Full lines (L1, L2): justify-between so left & right edges lock -->
+                                    <template x-if="txidLines.length <= 2 || idx < txidLines.length - 1">
+                                        <div class="w-full flex justify-between border-b border-[#1E2329]/40 pb-0">
+                                            <template x-for="(char, ci) in line.split('')" :key="ci">
+                                                <span class="text-[#1E2329] font-medium preview-text"
+                                                      x-text="char"
+                                                      style="font-size: calc(16 * var(--w-factor)); line-height: 1.15;"></span>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <!-- Line 3 (last): right-aligned, underline under its own text only -->
+                                    <template x-if="txidLines.length > 2 && idx === txidLines.length - 1">
+                                        <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-0 inline-block"
+                                              x-text="line"
+                                              style="font-size: calc(16 * var(--w-factor)); line-height: 1.15;"></span>
+                                    </template>
+                                </div>
                             </template>
                       </div>
 

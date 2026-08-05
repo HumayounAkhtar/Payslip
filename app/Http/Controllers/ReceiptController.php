@@ -184,21 +184,46 @@ class ReceiptController extends Controller
                 }
             }
             $fontFile = public_path('fonts/Inter-Medium.ttf');
+            $totalLines = count($txidLines);
 
-            // Pure natural right alignment - 100% matches Live Real-time Preview
+            // Left alignment reference start point is 305 (ending line 1 at 540)
+            $targetWidth = $this->getTextWidth($txidLines[0], $mapping->font_size, $fontFile);
+            $x_right = 540;
+            $x_left = $x_right - $targetWidth; // 305
+
             foreach ($txidLines as $idx => $line) {
                 $y = $mapping->y_coordinate + ($idx * 20);
-                $x = 540;
+                $isLastLine = ($idx === $totalLines - 1) && ($totalLines > 1);
 
-                $this->drawRawText($image, $line, $x, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
+                if (!$isLastLine) {
+                    // Line 1 & Line 2: Justified character spacing between $x_left (305) and $x_right (540)
+                    // so both left AND right edges align 100% flush
+                    $lineWidth  = $this->getTextWidth($line, $mapping->font_size, $fontFile);
+                    $numChars   = mb_strlen($line);
+                    $extraSpace = ($numChars > 1) ? ($targetWidth - $lineWidth) / ($numChars - 1) : 0;
+                    $currX      = (float) $x_left;
 
-                $lineWidth = $this->getTextWidth($line, $mapping->font_size, $fontFile);
-                $x_start_line = $x - $lineWidth;
+                    for ($c = 0; $c < $numChars; $c++) {
+                        $char  = mb_substr($line, $c, 1);
+                        $charW = $this->getTextWidth($char, $mapping->font_size, $fontFile);
+                        $this->drawRawText($image, $char, (int) round($currX), $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'left');
+                        $currX += $charW + $extraSpace;
+                    }
+
+                    $x_start_line = $x_left;
+                    $x_end_line   = $x_right;
+                } else {
+                    // Line 3: Right aligned to $x_right (540)
+                    $lineWidth    = $this->getTextWidth($line, $mapping->font_size, $fontFile);
+                    $x_start_line = $x_right - $lineWidth;
+                    $x_end_line   = $x_right;
+                    $this->drawRawText($image, $line, $x_right, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
+                }
+
                 $y_underline = $y + 16;
-
-                $image->drawLine(function ($draw) use ($x_start_line, $x, $y_underline, $mapping) {
+                $image->drawLine(function ($draw) use ($x_start_line, $x_end_line, $y_underline, $mapping) {
                     $draw->from($x_start_line, $y_underline);
-                    $draw->to($x, $y_underline);
+                    $draw->to($x_end_line, $y_underline);
                     $draw->color($mapping->font_color);
                     $draw->width(1);
                 });
