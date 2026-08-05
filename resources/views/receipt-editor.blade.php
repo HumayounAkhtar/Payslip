@@ -248,7 +248,7 @@
                           style="left: calc(415 * var(--w-factor)); top: calc(30 * var(--w-factor)); width: calc(31 * var(--w-factor)); height: calc(22 * var(--w-factor));">
                             
                      <!-- Wifi icon (Dynamic) -->
-                     <img :src="'/images/status-bar/wifi-' + wifi_status + '.png?v=4.0'"
+                     <img :src="'/images/status-bar/wifi-' + wifi_status + '.png?v=5.0'"
                           class="absolute"
                           style="left: calc(455 * var(--w-factor)); top: calc(30 * var(--w-factor)); width: calc(33 * var(--w-factor)); height: calc(22 * var(--w-factor));">
 
