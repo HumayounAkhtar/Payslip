@@ -73,7 +73,7 @@
                     <!-- 1. Device Status Controls -->
                     <div class="bg-[#181a20] border border-[#2b3139] rounded-2xl p-5 space-y-4 mb-5 shadow-lg">
                         <h3 class="text-sm font-bold text-yellow-500 uppercase tracking-wider mb-2">Device Status Indicators</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             <div>
                                 <div class="flex justify-between items-center mb-1">
                                     <label class="block text-xs font-medium text-[#848e9c]">Status Time</label>
@@ -100,6 +100,15 @@
                                     <option value="3-bars">3 Bars</option>
                                     <option value="2-bars">2 Bars</option>
                                     <option value="1-bar">1 Bar (Weak)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-[#848e9c] mb-1">Wi-Fi Signal</label>
+                                <select name="wifi_status" x-model="wifi_status" class="w-full bg-[#0b0e11] border border-[#2b3139] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-yellow-500 transition duration-200 text-sm">
+                                    <option value="3-bars">3 Bars (Full)</option>
+                                    <option value="2-bars">2 Bars</option>
+                                    <option value="1-bar">1 Bar (Weak)</option>
+                                    <option value="0-bars">Off (Disconnected)</option>
                                 </select>
                             </div>
                         </div>
@@ -238,8 +247,8 @@
                           class="absolute"
                           style="left: calc(415 * var(--w-factor)); top: calc(30 * var(--w-factor)); width: calc(31 * var(--w-factor)); height: calc(22 * var(--w-factor));">
                             
-                     <!-- Wifi icon (Static) -->
-                     <img src="/images/status-bar/wifi_original.png?v=3.0"
+                     <!-- Wifi icon (Dynamic) -->
+                     <img :src="'/images/status-bar/wifi-' + wifi_status + '.png?v=4.0'"
                           class="absolute"
                           style="left: calc(455 * var(--w-factor)); top: calc(30 * var(--w-factor)); width: calc(33 * var(--w-factor)); height: calc(22 * var(--w-factor));">
 
@@ -272,16 +281,14 @@
                      <!-- Address copy icon overlay -->
                      <img src="/images/copy-icon.png?v=2.0" class="absolute"
                           style="left: calc(541 * var(--w-factor)); top: calc(500 * var(--w-factor)); width: calc(21 * var(--w-factor)); height: calc(22 * var(--w-factor));">
-                     
-                     <!-- Txid (wrapped and underlined) — same right boundary (x=540) as Address -->
-                      <div class="absolute flex flex-col select-text"
-                           style="right: calc(50 * var(--w-factor)); top: calc(606 * var(--w-factor)); width: calc(236 * var(--w-factor));">
+                      
+                      <!-- Txid (wrapped and underlined) — right aligned, matching downloaded PNG 100% -->
+                      <div class="absolute flex flex-col items-end text-right select-text"
+                           style="right: calc(16 * var(--w-factor)); top: calc(606 * var(--w-factor)); width: calc(380 * var(--w-factor));">
                             <template x-for="(line, idx) in txidLines" :key="idx">
-                                <div class="flex w-full" :class="(idx === txidLines.length - 1 && txidLines.length > 2) ? 'justify-end' : 'justify-start'">
-                                    <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-0"
-                                          x-text="line"
-                                          style="font-size: calc(16 * var(--w-factor)); line-height: 1.15; margin-bottom: calc(3.5 * var(--w-factor));"></span>
-                                </div>
+                                <span class="text-[#1E2329] font-medium preview-text border-b border-[#1E2329]/40 pb-0"
+                                      x-text="line"
+                                      style="margin-right: calc(34 * var(--w-factor)); font-size: calc(16 * var(--w-factor)); line-height: 1.15; margin-bottom: calc(3.5 * var(--w-factor));"></span>
                             </template>
                       </div>
 
@@ -359,6 +366,7 @@
                 device_time: '',
                 battery_percent: 100,
                 signal_status: '4-bars',
+                wifi_status: '3-bars',
                 net_amount: '-178.5',
                 net_asset: 'USDT',
                 network: 'TRX',
@@ -545,6 +553,7 @@
                             this.txid.substring(25)
                         ];
                     }
+                    // 25 / 25 / rest — equal char count on both full lines = equal natural width
                     return [
                         this.txid.substring(0, 25),
                         this.txid.substring(25, 50),

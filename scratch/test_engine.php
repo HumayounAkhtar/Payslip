@@ -26,6 +26,7 @@ try {
         'device_time' => '15:57',
         'battery_status' => 'full',
         'signal_status' => '4-bars',
+        'wifi_status' => '2-bars',
         'net_amount' => '-178.5',
         'net_asset' => 'USDT',
         'network' => 'TRX',

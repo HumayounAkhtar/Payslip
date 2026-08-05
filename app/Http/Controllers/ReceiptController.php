@@ -67,6 +67,7 @@ class ReceiptController extends Controller
             'battery_status' => ['nullable', 'string'],
             'battery_percent' => ['nullable', 'numeric'],
             'signal_status' => ['required', 'string'],
+            'wifi_status' => ['nullable', 'string'],
             'net_amount' => ['required', 'string'],
             'net_asset' => ['required', 'string'],
             'network' => ['required', 'string'],
@@ -174,6 +175,7 @@ class ReceiptController extends Controller
                         mb_substr($txid, 25)
                     ];
                 } else {
+                    // Split as 25 / 25 / rest — both full lines equal char count = equal natural width
                     $txidLines = [
                         mb_substr($txid, 0, 25),
                         mb_substr($txid, 25, 25),
@@ -182,31 +184,21 @@ class ReceiptController extends Controller
                 }
             }
             $fontFile = public_path('fonts/Inter-Medium.ttf');
-            $totalLines = count($txidLines);
-            $line1Width = $this->getTextWidth($txidLines[0], $mapping->font_size, $fontFile);
-            $x_left_start = 540 - $line1Width;
 
+            // Pure natural right alignment - 100% matches Live Real-time Preview
             foreach ($txidLines as $idx => $line) {
                 $y = $mapping->y_coordinate + ($idx * 20);
+                $x = 540;
+
+                $this->drawRawText($image, $line, $x, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
+
                 $lineWidth = $this->getTextWidth($line, $mapping->font_size, $fontFile);
-
-                if ($idx < $totalLines - 1) {
-                    // Line 1 & Line 2 start at exact $x_left_start so 'c' and '0' align vertically
-                    $this->drawRawText($image, $line, $x_left_start, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'left');
-                    $x_start_line = $x_left_start;
-                    $x_end_line = $x_left_start + $lineWidth;
-                } else {
-                    // Last line (Line 3): right-aligned to x=540, underline spans only under its numbers
-                    $x_end_line = 540;
-                    $x_start_line = 540 - $lineWidth;
-                    $this->drawRawText($image, $line, 540, $y, 'Inter-Medium.ttf', $mapping->font_size, $mapping->font_color, 'right');
-                }
-
+                $x_start_line = $x - $lineWidth;
                 $y_underline = $y + 16;
 
-                $image->drawLine(function ($draw) use ($x_start_line, $x_end_line, $y_underline, $mapping) {
+                $image->drawLine(function ($draw) use ($x_start_line, $x, $y_underline, $mapping) {
                     $draw->from($x_start_line, $y_underline);
-                    $draw->to($x_end_line, $y_underline);
+                    $draw->to($x, $y_underline);
                     $draw->color($mapping->font_color);
                     $draw->width(1);
                 });
@@ -238,8 +230,12 @@ class ReceiptController extends Controller
             $image->place($batteryIconPath, 'top-left', 495, 30);
         }
 
-        // Wifi Icon (Static)
-        $wifiIconPath = public_path("images/status-bar/wifi_original.png");
+        // Wifi Icon (Dynamic based on wifi_status)
+        $wifiStatus = $request->input('wifi_status', '3-bars');
+        $wifiIconPath = public_path("images/status-bar/wifi-{$wifiStatus}.png");
+        if (!file_exists($wifiIconPath)) {
+            $wifiIconPath = public_path("images/status-bar/wifi_original.png");
+        }
         if (file_exists($wifiIconPath)) {
             $image->place($wifiIconPath, 'top-left', 455, 30);
         }
